@@ -4,22 +4,25 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
-import FolderOutlinedIcon from "@material-ui/icons/FolderOutlined";
 import Grid from "@material-ui/core/Grid";
 import Link from "next/link";
 import TextField from "@material-ui/core/TextField";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
-import Nav from "../../components/Nav";
+import SearchBar from "../../components/SearchBar";
+import BottomNavigation from "@material-ui/core/BottomNavigation";
+import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
+import RestoreIcon from "@material-ui/icons/Restore";
+import { useRouter } from "next/router";
 const useStyles = makeStyles({
-  root: {
-    margin: "0 20px",
-  },
   media: {
     height: 200,
     display: "grid",
     alignContent: "center",
     justifyContent: "center",
+  },
+  root: {
+    margin: "0 20px",
   },
   content: {
     textAlign: "left",
@@ -38,11 +41,17 @@ const useStyles = makeStyles({
   icon: {
     marginTop: "10px",
   },
+  fixed: {
+    width: "100%",
+    position: "fixed",
+    bottom: 0,
+    margin: "auto",
+  },
 });
 
 export default function MediaCard() {
   const classes = useStyles();
-
+  const router = useRouter();
   return (
     <>
       <Card className={classes.root}>
@@ -59,7 +68,7 @@ export default function MediaCard() {
             />
           </Grid>
           <Grid item xs={10}>
-            <Nav />
+            <SearchBar />
           </Grid>
         </Grid>
         <Grid container spacing={2} justify="space-between">
@@ -122,6 +131,58 @@ export default function MediaCard() {
               </CardContent>
             </CardActionArea>
           </Grid>
+          <Grid item xs={6}>
+            <CardActionArea>
+              <CardMedia
+                className={classes.media}
+                title="Contemplative Reptile"
+                image="/image/drum2.png"
+              />
+              <CardContent>
+                <Typography
+                  gutterBottom
+                  variant="h5"
+                  component="h2"
+                  className={classes.content}
+                >
+                  Drum Elektrik DM Lite Kit dari Alesis Nitro
+                </Typography>
+                <TextField
+                  label="price"
+                  id="outlined-size-small"
+                  defaultValue="Rp 9.000.000"
+                  variant="outlined"
+                  size="small"
+                />
+              </CardContent>
+            </CardActionArea>
+          </Grid>
+          <Grid item xs={6}>
+            <CardActionArea>
+              <CardMedia
+                className={classes.media}
+                title="Contemplative Reptile"
+                image="/image/drum2.png"
+              />
+              <CardContent>
+                <Typography
+                  gutterBottom
+                  variant="h5"
+                  component="h2"
+                  className={classes.content}
+                >
+                  Drum Elektrik DM Lite Kit dari Alesis Nitro
+                </Typography>
+                <TextField
+                  label="price"
+                  id="outlined-size-small"
+                  defaultValue="Rp 9.000.000"
+                  variant="outlined"
+                  size="small"
+                />
+              </CardContent>
+            </CardActionArea>
+          </Grid>
         </Grid>
       </Card>
       <Grid container justify="flex-end" className={classes.icon}>
@@ -131,6 +192,23 @@ export default function MediaCard() {
           </Fab>
         </Grid>
       </Grid>
+      <BottomNavigation className={classes.fixed} showLabels>
+        <BottomNavigationAction
+          onClick={() => router.back()}
+          label="Kembali"
+          icon={<RestoreIcon />}
+        />
+        <Link href="/cards/form/tambah.js" as="/cards/form/tambah">
+          <a>
+            <BottomNavigationAction
+              color="primary"
+              aria-label="add"
+              label="Tambah"
+              icon={<AddIcon />}
+            />
+          </a>
+        </Link>
+      </BottomNavigation>
     </>
   );
 }

@@ -25,6 +25,7 @@ const useStyles = makeStyles({
   nav: {
     display: "grid",
     justifyContent: "start",
+    alignContent: "center",
   },
   text: {
     textAlign: "center",
@@ -58,7 +59,7 @@ export default function TemporaryDrawer() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+        {["Jenis Inventory", "Musik"].map((text, index) => (
           <ListItem button key={text}>
             <ListItemIcon>
               {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
@@ -69,7 +70,7 @@ export default function TemporaryDrawer() {
       </List>
       <Divider />
       <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
+        {["Akun", "Keluar"].map((text, index) => (
           <ListItem button key={text}>
             <ListItemIcon>
               {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
@@ -90,6 +91,9 @@ export default function TemporaryDrawer() {
               <Button onClick={toggleDrawer(anchor, true)}>
                 <MenuIcon color="secondary" />
               </Button>
+            </Grid>
+            <Grid item xl={10} className={classes.nav}>
+              Inventory App
             </Grid>
             <Grid item xl={10} className={classes.nav}></Grid>
           </Grid>
