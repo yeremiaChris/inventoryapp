@@ -20,6 +20,7 @@ import BottomNavigation from "@material-ui/core/BottomNavigation";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import IconButton from "@material-ui/core/IconButton";
 import PhotoCamera from "@material-ui/icons/PhotoCamera";
+import Sidebar from "../../../components/Sidebar";
 
 const useStyles = makeStyles({
   root: {
@@ -43,6 +44,7 @@ export default function MediaCard() {
   const onSubmit = (values) => console.log(values);
   return (
     <>
+      <Sidebar />
       <Card className={classes.root}>
         <CardActionArea>
           <label htmlFor="icon-button-file">

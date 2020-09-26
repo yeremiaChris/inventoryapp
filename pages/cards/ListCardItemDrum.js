@@ -14,6 +14,9 @@ import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import RestoreIcon from "@material-ui/icons/Restore";
 import { useRouter } from "next/router";
+import CardActions from "@material-ui/core/CardActions";
+import Button from "@material-ui/core/Button";
+import Sidebar from "../../components/Sidebar";
 const useStyles = makeStyles({
   media: {
     height: 200,
@@ -23,23 +26,11 @@ const useStyles = makeStyles({
   },
   root: {
     margin: "0 20px",
+    marginBottom: 20,
   },
   content: {
     textAlign: "left",
     fontSize: "1em",
-  },
-  input: {
-    maxWidth: 50,
-  },
-  link: {
-    textDecoration: "none",
-    color: "black",
-  },
-  stok: {
-    marginTop: "5px",
-  },
-  icon: {
-    marginTop: "10px",
   },
   fixed: {
     width: "100%",
@@ -47,156 +38,99 @@ const useStyles = makeStyles({
     bottom: 0,
     margin: "auto",
   },
+  price: {
+    marginTop: "10px",
+  },
+  input: {
+    margin: "auto",
+  },
 });
+
+const drums = [
+  {
+    gambar: "/image/drum.png",
+    nama: "Drum Tama Superstar Classic CL72RS PGJP",
+    harga: "Rp 9.000.000",
+  },
+  {
+    gambar: "/image/drum2.png",
+    nama: "Drum Elektrik DM Lite Kit dari Alesis Nitro",
+    harga: "Rp 10.678.000",
+  },
+  {
+    gambar: "/image/drum2.png",
+    nama: "Drum Elektrik DM Lite Kit dari Alesis Nitro",
+    harga: "Rp 6.290.200",
+  },
+  {
+    gambar: "/image/drum2.png",
+    nama: "Drum Elektrik DM Lite Kit dari Alesis Nitro",
+    harga: "Rp 4.500.234",
+  },
+];
 
 export default function MediaCard() {
   const classes = useStyles();
   const router = useRouter();
   return (
     <>
-      <Card className={classes.root}>
-        <Grid container spacing={2}>
-          <Grid item xs={2}>
-            <TextField
-              label="stok"
-              id="outlined-size-small"
-              defaultValue="2"
-              variant="outlined"
-              size="small"
-              disabled={true}
-              className={classes.stok}
-            />
-          </Grid>
-          <Grid item xs={10}>
-            <SearchBar />
-          </Grid>
-        </Grid>
-        <Grid container spacing={2} justify="space-between">
-          <Grid item xs={6}>
-            <Link
-              href="/cards/ListCardItemDrum.js"
-              as="/cards/ListCardItemDrum"
-            >
-              <a className={classes.link}>
-                <CardActionArea>
-                  <CardMedia
-                    className={classes.media}
-                    title="Contemplative Reptile"
-                    image="/image/drum.png"
-                  />
-                  <CardContent>
-                    <Typography
-                      gutterBottom
-                      variant="h5"
-                      component="h2"
-                      className={classes.content}
-                    >
-                      Drum Tama Superstar Classic CL72RS PGJP
-                    </Typography>
-                    <TextField
-                      label="price"
-                      id="outlined-size-small"
-                      defaultValue="Rp 5.430.000"
-                      variant="outlined"
-                      size="small"
-                    />
-                  </CardContent>
-                </CardActionArea>
-              </a>
-            </Link>
-          </Grid>
-          <Grid item xs={6}>
-            <CardActionArea>
-              <CardMedia
-                className={classes.media}
-                title="Contemplative Reptile"
-                image="/image/drum2.png"
-              />
-              <CardContent>
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="h2"
-                  className={classes.content}
-                >
-                  Drum Elektrik DM Lite Kit dari Alesis Nitro
-                </Typography>
-                <TextField
-                  label="price"
-                  id="outlined-size-small"
-                  defaultValue="Rp 9.000.000"
-                  variant="outlined"
-                  size="small"
-                />
-              </CardContent>
-            </CardActionArea>
-          </Grid>
-          <Grid item xs={6}>
-            <CardActionArea>
-              <CardMedia
-                className={classes.media}
-                title="Contemplative Reptile"
-                image="/image/drum2.png"
-              />
-              <CardContent>
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="h2"
-                  className={classes.content}
-                >
-                  Drum Elektrik DM Lite Kit dari Alesis Nitro
-                </Typography>
-                <TextField
-                  label="price"
-                  id="outlined-size-small"
-                  defaultValue="Rp 9.000.000"
-                  variant="outlined"
-                  size="small"
-                />
-              </CardContent>
-            </CardActionArea>
-          </Grid>
-          <Grid item xs={6}>
-            <CardActionArea>
-              <CardMedia
-                className={classes.media}
-                title="Contemplative Reptile"
-                image="/image/drum2.png"
-              />
-              <CardContent>
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="h2"
-                  className={classes.content}
-                >
-                  Drum Elektrik DM Lite Kit dari Alesis Nitro
-                </Typography>
-                <TextField
-                  label="price"
-                  id="outlined-size-small"
-                  defaultValue="Rp 9.000.000"
-                  variant="outlined"
-                  size="small"
-                />
-              </CardContent>
-            </CardActionArea>
-          </Grid>
-        </Grid>
-      </Card>
-      <Grid container justify="flex-end" className={classes.icon}>
+      <Sidebar />
+      <Grid container spacing={2} className={classes.root}>
         <Grid item xs={2}>
-          <Fab color="primary" aria-label="add">
-            <AddIcon />
-          </Fab>
+          <TextField
+            label="stok"
+            id="outlined-size-small"
+            defaultValue={`""`}
+            variant="outlined"
+            size="small"
+            disabled={true}
+            className={classes.stok}
+          />
+        </Grid>
+        <Grid item xs={9}>
+          <SearchBar />
         </Grid>
       </Grid>
-      <BottomNavigation className={classes.fixed} showLabels>
+
+      <Grid container>
+        {drums.map((e, index) => (
+          <Grid item xs={6} key={index}>
+            <Card className={classes.root}>
+              <CardActionArea>
+                <CardMedia
+                  className={classes.media}
+                  image={e.gambar}
+                  title="Contemplative Reptile"
+                />
+                <CardContent>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                  >
+                    {e.nama}
+                  </Typography>
+                  <TextField
+                    label="price"
+                    id="outlined-size-small"
+                    defaultValue={e.harga}
+                    variant="outlined"
+                    size="small"
+                    className={classes.price}
+                  />
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+      {/* botom navigation */}
+      <BottomNavigation className={classes.fixed}>
         <BottomNavigationAction
           onClick={() => router.back()}
           label="Kembali"
           icon={<RestoreIcon />}
+          showLabel
         />
         <Link href="/cards/form/tambah.js" as="/cards/form/tambah">
           <a>
@@ -205,6 +139,7 @@ export default function MediaCard() {
               aria-label="add"
               label="Tambah"
               icon={<AddIcon />}
+              showLabel
             />
           </a>
         </Link>

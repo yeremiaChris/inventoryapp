@@ -16,6 +16,7 @@ import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import RestoreIcon from "@material-ui/icons/Restore";
 import AddIcon from "@material-ui/icons/Add";
+import Sidebar from "./Sidebar";
 
 const useStyles = makeStyles({
   root: {
@@ -84,17 +85,25 @@ export default function MediaCard() {
 
   return (
     <>
+      <Sidebar />
       <Grid container>
         {item.map((e, index) => (
           <Grid item xs={3}>
             <Card className={classes.root}>
               <CardActionArea>
-                <CardMedia
-                  className={classes.media}
-                  title="Contemplative Reptile"
+                <Link
+                  href="/cards/ListCardItemDrum.js"
+                  as="/cards/ListCardItemDrum"
                 >
-                  <FolderOutlinedIcon color="action" />
-                </CardMedia>
+                  <a>
+                    <CardMedia
+                      className={classes.media}
+                      title="Contemplative Reptile"
+                    >
+                      <FolderOutlinedIcon color="action" />
+                    </CardMedia>
+                  </a>
+                </Link>
                 <TextField
                   id="outlined-size-small"
                   defaultValue={e.folder}
