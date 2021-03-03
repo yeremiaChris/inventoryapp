@@ -3,7 +3,7 @@ import MenuUtama from "./components/menuUtama";
 import { Grid, makeStyles } from "@material-ui/core";
 import TopBar from "./components/utils/topBar";
 import Sidebar from "./components/utils/Sidebar";
-
+import Footer from "./components/utils/footer";
 const useStyles = makeStyles((theme) => ({
   container: {
     width: 1200,
@@ -32,6 +32,9 @@ function index() {
         <Grid item lg={10}>
           <MenuUtama />
         </Grid>
+      </Grid>
+      <Grid container className={classes.container}>
+        <Footer />
       </Grid>
     </>
   );
