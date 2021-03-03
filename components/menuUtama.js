@@ -1,10 +1,7 @@
 import { Grid, makeStyles } from "@material-ui/core";
-import PermIdentityIcon from "@material-ui/icons/PermIdentity";
-import PermDataSettingIcon from "@material-ui/icons/PermDataSetting";
-import HourglassEmptyIcon from "@material-ui/icons/HourglassEmpty";
-import HourglassFullIcon from "@material-ui/icons/HourglassFull";
 import Recent from "./utils/Recent";
-const useStyles = makeStyles({
+import { itemsBox } from "./utils/utils";
+const useStyles = makeStyles((theme) => ({
   header: {
     marginTop: 10,
     fontSize: 30,
@@ -35,48 +32,19 @@ const useStyles = makeStyles({
     width: "100%",
     height: "100%",
   },
-});
+}));
 
 export default function MediaCard() {
   const classes = useStyles();
-  const items = [
-    {
-      nama: "Pengguna",
-      color: "#C70039",
-      angka: 0,
-      key: "1",
-      icon: <PermIdentityIcon fontSize="large" style={{ marginLeft: 10 }} />,
-    },
-    {
-      nama: "Stok Sedikit",
-      color: "#900C3F",
-      angka: 0,
-      key: "2",
-      icon: <PermDataSettingIcon fontSize="large" style={{ marginLeft: 10 }} />,
-    },
-    {
-      nama: "Stok Habis",
-      color: "#FF5733",
-      angka: 0,
-      key: "3",
-      icon: <HourglassEmptyIcon fontSize="large" style={{ marginLeft: 10 }} />,
-    },
-    {
-      nama: "Total Item",
-      color: "#f34419",
-      angka: 0,
-      key: "4",
-      icon: <HourglassFullIcon fontSize="large" style={{ marginLeft: 10 }} />,
-    },
-  ];
   return (
     <div className={classes.container}>
       <h1 className={classes.header}>Dashboard</h1>
-      <div className={classes.wrapperDashboard}>
-        {items &&
-          items.map((item) => {
+      <div container className={classes.wrapperDashboard}>
+        {itemsBox &&
+          itemsBox.map((item) => {
             return (
               <div
+                item
                 style={{ backgroundColor: item.color }}
                 className={classes.box}
                 key={item.key}
