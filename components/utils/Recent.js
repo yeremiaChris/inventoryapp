@@ -9,6 +9,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { Grid } from "@material-ui/core";
 import { items } from "./utils";
+import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -53,7 +54,18 @@ export default function CustomizedTables() {
         items.map((item) => {
           return (
             <Grid key={item.key} item lg={4}>
-              <h3 className={classes.header}>{item.nama}</h3>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  backgroundColor: "#f5f5f5",
+                  borderTopLeftRadius: 10,
+                  borderTopRightRadius: 10,
+                }}
+              >
+                <AttachMoneyIcon />
+                <h3 className={classes.header}>{item.nama}</h3>
+              </div>
               <TableContainer component={Paper}>
                 <Table aria-label="customized table">
                   <TableHead>

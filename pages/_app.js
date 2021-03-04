@@ -25,15 +25,21 @@ export default function MyApp(props) {
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
+
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
         <Component {...pageProps} />
+        <style global>{globalStyle}</style>
       </ThemeProvider>
     </React.Fragment>
   );
 }
-
+const globalStyle = `
+body {
+    background-color: #efefef;
+}
+`;
 MyApp.propTypes = {
   Component: PropTypes.elementType.isRequired,
   pageProps: PropTypes.object.isRequired,

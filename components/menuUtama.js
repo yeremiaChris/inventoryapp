@@ -3,7 +3,6 @@ import Recent from "./utils/Recent";
 import { itemsBox } from "./utils/utils";
 const useStyles = makeStyles((theme) => ({
   header: {
-    marginTop: 10,
     fontSize: 30,
     margin: 0,
     marginBottom: 20,
@@ -11,6 +10,13 @@ const useStyles = makeStyles((theme) => ({
   },
   container: {
     marginLeft: 10,
+    backgroundColor: "white",
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
+    paddingBottom: 20,
+    paddingLeft: 20,
+    paddingBottom: 20,
   },
   wrapperDashboard: {
     display: "flex",
@@ -39,12 +45,11 @@ export default function MediaCard() {
   return (
     <div className={classes.container}>
       <h1 className={classes.header}>Dashboard</h1>
-      <div container className={classes.wrapperDashboard}>
+      <div className={classes.wrapperDashboard}>
         {itemsBox &&
           itemsBox.map((item) => {
             return (
               <div
-                item
                 style={{ backgroundColor: item.color }}
                 className={classes.box}
                 key={item.key}
