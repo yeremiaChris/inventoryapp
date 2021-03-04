@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 10,
     paddingBottom: 20,
     paddingLeft: 20,
-    paddingBottom: 20,
   },
   wrapperDashboard: {
     display: "flex",

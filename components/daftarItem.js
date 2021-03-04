@@ -2,6 +2,7 @@ import React from "react";
 import { Grid, makeStyles } from "@material-ui/core";
 import TableDaftarBarang from "./utils/tableDaftarBarang";
 import ButtonSortDaftarBrg from "./utils/buttonSortDaftarBrg";
+import ButtonDialogFormTambahBarang from "./utils/dialogFormTambahBrg";
 const useStyles = makeStyles((theme) => ({
   container: {
     marginLeft: 10,
@@ -9,9 +10,8 @@ const useStyles = makeStyles((theme) => ({
     padding: 10,
     borderRadius: 5,
     marginTop: 10,
-    paddingBottom: 20,
+    paddingBottom: 30,
     paddingLeft: 20,
-    paddingBottom: 20,
   },
   header: {
     fontSize: 30,
@@ -24,13 +24,19 @@ const useStyles = makeStyles((theme) => ({
     padding: 20,
     borderRadius: 5,
   },
+  wrapper: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
 }));
 function daftarItem() {
   const classes = useStyles();
   return (
     <Grid container className={classes.container}>
-      <Grid item lg={12}>
+      <Grid item lg={12} className={classes.wrapper}>
         <h1 className={classes.header}>Daftar Barang</h1>
+
+        <ButtonDialogFormTambahBarang />
       </Grid>
       <Grid item lg={12}>
         <ButtonSortDaftarBrg />

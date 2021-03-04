@@ -5,6 +5,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
+import { urutkan } from "./utils";
 const useStyles = makeStyles((theme) => ({
   formControl: {
     marginBottom: 10,
@@ -81,16 +82,21 @@ export default function NativeSelects() {
             native
             value={state.age}
             onChange={handleChange}
-            label="Age"
+            label="Urutkan"
             inputProps={{
               name: "Urutkan",
               id: "outlined-age-native-simple",
             }}
           >
             <option aria-label="None" value="" />
-            <option value={10}>Ten</option>
-            <option value={20}>Twenty</option>
-            <option value={30}>Thirty</option>
+            {urutkan &&
+              urutkan.map((item) => {
+                return (
+                  <option key={item.key} value={item.nama}>
+                    {item.nama}
+                  </option>
+                );
+              })}
           </Select>
         </FormControl>
       </div>
