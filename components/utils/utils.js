@@ -32,8 +32,9 @@ export const routePath = [
     path: "/daftarBarang",
   },
   {
-    nama: "Form Pengeluaran",
+    nama: "Form Pembelian",
     key: "3",
+    path: "/beliBarang",
   },
 ];
 
@@ -134,7 +135,7 @@ export const bahan = [
     tanggalBeli: "23 Nov 2021",
     hargaPerSatuan: 7000,
     totalHarga: 7000,
-    key: "4",
+    key: "5",
   },
   {
     nama: "Capuchino kopi",
@@ -143,7 +144,7 @@ export const bahan = [
     tanggalBeli: "10 Nov 2021",
     hargaPerSatuan: 4000,
     totalHarga: 4000,
-    key: "5",
+    key: "6",
   },
 ];
 
@@ -164,6 +165,12 @@ export const fieldList = [
   {
     nama: "Harga Satuan",
     key: "3",
+  },
+];
+export const fieldListDua = [
+  {
+    nama: "Jumlah beli",
+    key: "1",
   },
 ];
 

@@ -30,7 +30,7 @@ export default function MyApp(props) {
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
         <Component {...pageProps} />
-        <style global>{globalStyle}</style>
+        <style>{globalStyle}</style>
       </ThemeProvider>
     </React.Fragment>
   );

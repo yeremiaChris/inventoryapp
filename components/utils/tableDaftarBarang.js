@@ -67,7 +67,7 @@ export default function CustomizedTables() {
         <TableBody>
           {bahan &&
             bahan.map((row) => (
-              <StyledTableRow key={row.name}>
+              <StyledTableRow key={row.key}>
                 <StyledTableCell component="th" scope="row">
                   {row.nama}
                 </StyledTableCell>
