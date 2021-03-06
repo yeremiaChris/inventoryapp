@@ -2,8 +2,10 @@ import PermIdentityIcon from "@material-ui/icons/PermIdentity";
 import PermDataSettingIcon from "@material-ui/icons/PermDataSetting";
 import HourglassEmptyIcon from "@material-ui/icons/HourglassEmpty";
 import HourglassFullIcon from "@material-ui/icons/HourglassFull";
-
-// item untuk dashboard\
+import * as Yup from "yup";
+import {tambahItem} from '../../src/redux/actions'
+import moment from 'moment';// item untuk dashboard\
+import 'moment/locale/id'
 export const items = [
   {
     nama: "Produk Jual Terbanyak",
@@ -157,25 +159,7 @@ export const formatRupiah = (bilangan) => {
 };
 
 // form tambah barang
-export const fieldList = [
-  {
-    nama: "Nama barang",
-    key: "1",
-  },
-  {
-    nama: "Harga Satuan",
-    key: "3",
-  },
-];
-export const fieldListDua = [
-  {
-    nama: "Jumlah beli",
-    key: "1",
-  },
-];
-
-// select untuk form tambah barang
-export const select = [
+const select = [
   {
     nama: "Kg",
     key: "1",
@@ -193,3 +177,76 @@ export const select = [
     key: "4",
   },
 ];
+
+export const fieldList = [
+  {
+    nama: "Nama barang",
+    key: "1",
+    value: "nama",
+  },
+  {
+    nama: "Satuan",
+    key: "2",
+    select: true,
+    selection: select,
+  },
+  {
+    nama: "Harga Per Satuan",
+    key: "3",
+    value: "hargaPerSatuan",
+  },
+];
+export const fieldListDua = [
+  {
+    nama: "Jumlah beli",
+    key: "1",
+  },
+];
+
+// select untuk form tambah barang
+
+// validation schema tambah barang
+export const tambahSchema = Yup.object().shape({
+  nama: Yup.string()
+    .min(5, "Too Short!")
+    .max(50, "Too Long!")
+    .required("Required"),
+  satuan: Yup.string()
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
+    .required("Required"),
+  hargaPerSatuan: Yup.number().required("Required"),
+});
+
+// handlechange tambah barang di field nya
+export const handleChangeTambahBarang = (e, item, setFieldValue) => {
+  if (item.value !== "nama") {
+    if (!Number(e.target.value)) {
+      return;
+    }
+    setFieldValue("hargaPerSatuan", e.target.value);
+  } else {
+    setFieldValue("nama", e.target.value);
+  }
+};
+
+// submit tambah barang
+// Indonesian locale
+moment.locale('id');
+export const submitItem = (data, dispatch, handleClose) => {
+  
+  const key = Math.random()
+  const date = new Date()
+  const obj = {
+      nama: data.nama,
+      stok: 0,
+      satuan: data.satuan,
+      tanggalBeli: moment(date).format('LL'), // "June 1, 2017"
+      hargaPerSatuan: parseInt(data.hargaPerSatuan),
+      totalHarga: 4000,
+      key: key,
+  }
+  console.log(obj);
+  dispatch(tambahItem(obj))
+  handleClose()
+};

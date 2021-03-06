@@ -4,6 +4,7 @@ import { Grid, makeStyles } from "@material-ui/core";
 import TopBar from "../components/utils/topBar";
 import Sidebar from "../components/utils/Sidebar";
 import Footer from "../components/utils/footer";
+import { useSelector } from "react-redux";
 const useStyles = makeStyles((theme) => ({
   container: {
     width: 1200,

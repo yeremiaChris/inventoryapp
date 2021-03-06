@@ -12,7 +12,8 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
-import { bahan, formatRupiah } from "./utils";
+import { useSelector } from "react-redux";
+import { formatRupiah } from "./utils";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -49,7 +50,7 @@ const useStyles = makeStyles({
 
 export default function CustomizedTables() {
   const classes = useStyles();
-
+  const bahan = useSelector((state) => state.daftarItem.daftarItem);
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">
