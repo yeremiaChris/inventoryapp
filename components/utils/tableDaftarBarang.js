@@ -12,9 +12,12 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { formatRupiah, totalHarga, next, before } from "./utils";
 import IconButton from "@material-ui/core/IconButton";
+import { hapusItem } from "../../src/redux/actions";
+import { useRouter } from "next/router";
+
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -54,9 +57,17 @@ const useStyles = makeStyles((theme) => ({
 export default function CustomizedTables() {
   const classes = useStyles();
   const bahan = useSelector((state) => state.daftarItem.daftarItem);
+  // state pagination
   const [nextPage, setNextPage] = React.useState(3);
   const [beforePage, setBeforePage] = React.useState(0);
   const currentPage = bahan.slice(beforePage, nextPage);
+  // akhir state pagination
+  // dispatch
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const edit = (id) => {
+    router.push(`/daftarBarang/id`);
+  };
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">
@@ -92,6 +103,7 @@ export default function CustomizedTables() {
                   </StyledTableCell>
                   <StyledTableCell align="right">
                     <Button
+                      onClick={() => edit(row.nama)}
                       variant="contained"
                       color="secondary"
                       className={classes.button}
@@ -100,6 +112,7 @@ export default function CustomizedTables() {
                       Edit
                     </Button>
                     <Button
+                      onClick={() => dispatch(hapusItem(row.key, row.nama))}
                       style={{
                         backgroundColor: "maroon",
                         color: "white",

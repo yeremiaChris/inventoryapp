@@ -20,7 +20,7 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/router";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import { useDispatch } from "react-redux";
 import { Formik } from "formik";
@@ -43,12 +43,13 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 50,
   },
   error: {
-    color: 'red',
-  }
+    color: "red",
+  },
 }));
 export default function FormDialog() {
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
+  console.log(router);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -58,7 +59,7 @@ export default function FormDialog() {
   };
   const classes = useStyles();
   const [jumlah, setJumlah] = React.useState(0);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   return (
     <div>
       {router.pathname === "/daftarBarang" ? (
@@ -93,7 +94,7 @@ export default function FormDialog() {
             hargaPerSatuan: "",
           }}
           validationSchema={tambahSchema}
-          onSubmit={(data) => submitItem(data,dispatch,handleClose)}
+          onSubmit={(data) => submitItem(data, dispatch, handleClose)}
         >
           {({
             values,
@@ -142,19 +143,23 @@ export default function FormDialog() {
                                         );
                                       })}
                                   </Select>
-                                  
                                 </FormControl>
-                                {errors.satuan && touched.satuan ? <div className={classes.error}>{errors.satuan}</div> : null}
+                                {errors.satuan && touched.satuan ? (
+                                  <div className={classes.error}>
+                                    {errors.satuan}
+                                  </div>
+                                ) : null}
                               </div>
                             ) : (
-                               <div  key={item.key}>
-                                  <TextField
+                              <div key={item.key}>
+                                <TextField
                                   className={classes.field}
-                                
                                   margin="dense"
                                   id="name"
                                   label={item.nama}
-                                  type={item.value === "nama" ? "text" : "number"}
+                                  type={
+                                    item.value === "nama" ? "text" : "number"
+                                  }
                                   fullWidth
                                   onChange={(e) =>
                                     handleChangeTambahBarang(
@@ -168,26 +173,27 @@ export default function FormDialog() {
                                       ? values.nama
                                       : values.hargaPerSatuan
                                   }
-                                  />
-                                  {
-                                    item.value === "nama" ?
-                                      <div>
-                                        {
-                                          errors.nama && touched.nama ? <div className={classes.error}>{errors.nama}</div> : null
-                                        }
-                                      </div> :
-                                      <div>
-                                        {
-                                          errors.hargaPerSatuan && touched.hargaPerSatuan ? <div className={classes.error}>{errors.hargaPerSatuan}</div> : null
-                                        }
-                                      </div> 
-                                  }
-                                  
-                               </div>
-                                
-                                
-                                
-                              )
+                                />
+                                {item.value === "nama" ? (
+                                  <div>
+                                    {errors.nama && touched.nama ? (
+                                      <div className={classes.error}>
+                                        {errors.nama}
+                                      </div>
+                                    ) : null}
+                                  </div>
+                                ) : (
+                                  <div>
+                                    {errors.hargaPerSatuan &&
+                                    touched.hargaPerSatuan ? (
+                                      <div className={classes.error}>
+                                        {errors.hargaPerSatuan}
+                                      </div>
+                                    ) : null}
+                                  </div>
+                                )}
+                              </div>
+                            )
                           )}
                       </DialogContent>
                     </>

@@ -1,16 +1,16 @@
-html,
 body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  background-color: #efefef;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+.sideItem {
+  background-color: black;
+  border-radius: 15px;
+  height: 240px;
+  color: white;
+  padding: 10px;
+  opacity: 4;
 }
-
-* {
-  box-sizing: border-box;
+.container {
+  margin: auto;
+  font-family: "Akaya Kanadaka";
 }

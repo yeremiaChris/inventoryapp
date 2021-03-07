@@ -5,6 +5,8 @@ import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "../src/theme";
 import "../src/fonts.css";
+import "../styles/globals.css";
+
 import { wrapper } from "../src/redux/store";
 function MyApp(props) {
   const { Component, pageProps } = props;

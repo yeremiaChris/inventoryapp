@@ -1,4 +1,4 @@
-import { TAMBAH_ITEM } from "./actionType";
+import { TAMBAH_ITEM, HAPUS_ITEM, EDIT_ITEM } from "./actionType";
 const initialState = {
   daftarItem: [
     {
@@ -62,7 +62,34 @@ export const reducer = (state = initialState, action) => {
     case TAMBAH_ITEM:
       return {
         ...state,
-        daftarItem: [action.data,...state.daftarItem],
+        daftarItem: [action.data, ...state.daftarItem],
+      };
+      break;
+    case HAPUS_ITEM:
+      return {
+        ...state,
+        daftarItem: [
+          ...state.daftarItem.filter((item) =>
+            item.key === action.key ? item.key !== action.key : item
+          ),
+        ],
+      };
+      break;
+    case EDIT_ITEM:
+      return {
+        ...state,
+        daftarItem: [
+          ...state.daftarItem.map((item) =>
+            item.key === action.key
+              ? {
+                  ...item,
+                  nama: action.nama,
+                  satuan: action.satuan,
+                  hargaPerSatuan: action.hargaPerSatuan,
+                }
+              : item
+          ),
+        ],
       };
       break;
     default:
