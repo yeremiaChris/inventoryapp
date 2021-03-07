@@ -3,9 +3,10 @@ import PermDataSettingIcon from "@material-ui/icons/PermDataSetting";
 import HourglassEmptyIcon from "@material-ui/icons/HourglassEmpty";
 import HourglassFullIcon from "@material-ui/icons/HourglassFull";
 import * as Yup from "yup";
-import {tambahItem} from '../../src/redux/actions'
-import moment from 'moment';// item untuk dashboard\
-import 'moment/locale/id'
+import { tambahItem } from "../../src/redux/actions";
+import moment from "moment"; // item untuk dashboard\
+import "moment/locale/id";
+
 export const items = [
   {
     nama: "Produk Jual Terbanyak",
@@ -92,64 +93,6 @@ export const urutkan = [
   },
 ];
 
-// item untuk bahan barang
-export const bahan = [
-  {
-    nama: "Kopi hitam pahit",
-    stok: 0,
-    satuan: "Kg",
-    tanggalBeli: "20 Nov 2021",
-    hargaPerSatuan: 10000,
-    totalHarga: 10000,
-    key: "1",
-  },
-  {
-    nama: "Gula pasir",
-    stok: 0,
-    satuan: "Kg",
-    tanggalBeli: "25 Nov 2021",
-    hargaPerSatuan: 15000,
-    totalHarga: 15000,
-    key: "2",
-  },
-  {
-    nama: "Cap kopi",
-    stok: 0,
-    satuan: "pcs",
-    tanggalBeli: "12 Nov 2021",
-    hargaPerSatuan: 5000,
-    totalHarga: 5000,
-    key: "3",
-  },
-  {
-    nama: "Sedotan",
-    stok: 0,
-    satuan: "pack",
-    tanggalBeli: "23 Nov 2021",
-    hargaPerSatuan: 7000,
-    totalHarga: 7000,
-    key: "4",
-  },
-  {
-    nama: "Sedotan",
-    stok: 0,
-    satuan: "pack",
-    tanggalBeli: "23 Nov 2021",
-    hargaPerSatuan: 7000,
-    totalHarga: 7000,
-    key: "5",
-  },
-  {
-    nama: "Capuchino kopi",
-    stok: 0,
-    satuan: "kg",
-    tanggalBeli: "10 Nov 2021",
-    hargaPerSatuan: 4000,
-    totalHarga: 4000,
-    key: "6",
-  },
-];
-
 // format rupiah
 export const formatRupiah = (bilangan) => {
   var reverse = bilangan.toString().split("").reverse().join(""),
@@ -232,21 +175,50 @@ export const handleChangeTambahBarang = (e, item, setFieldValue) => {
 
 // submit tambah barang
 // Indonesian locale
-moment.locale('id');
+moment.locale("id");
 export const submitItem = (data, dispatch, handleClose) => {
-  
-  const key = Math.random()
-  const date = new Date()
+  const key = Math.random();
+  const date = new Date();
   const obj = {
-      nama: data.nama,
-      stok: 0,
-      satuan: data.satuan,
-      tanggalBeli: moment(date).format('LL'), // "June 1, 2017"
-      hargaPerSatuan: parseInt(data.hargaPerSatuan),
-      totalHarga: 4000,
-      key: key,
-  }
+    nama: data.nama,
+    stok: 0,
+    satuan: data.satuan,
+    tanggalBeli: moment(date).format("LL"), // "June 1, 2017"
+    hargaPerSatuan: parseInt(data.hargaPerSatuan),
+    totalHarga: 4000,
+    key: key,
+  };
   console.log(obj);
-  dispatch(tambahItem(obj))
-  handleClose()
+  dispatch(tambahItem(obj));
+  handleClose();
+};
+
+// perhitungan total harga dif daftar barang
+export const totalHarga = (stok, harga) => {
+  const total = stok * harga;
+  return total;
+};
+
+// pagination
+export const next = (
+  nextPage,
+  bahan,
+  setBeforePage,
+  setNextPage,
+  beforePage
+) => {
+  if (nextPage >= bahan.length) {
+    return;
+  } else {
+    setBeforePage(beforePage + 3);
+    setNextPage(nextPage + 3);
+  }
+};
+export const before = (beforePage, setBeforePage, setNextPage, nextPage) => {
+  if (beforePage <= 0) {
+    return;
+  } else {
+    setBeforePage(beforePage - 3);
+    setNextPage(nextPage - 3);
+  }
 };

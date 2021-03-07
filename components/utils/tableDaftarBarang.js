@@ -13,8 +13,8 @@ import EditIcon from "@material-ui/icons/Edit";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import { useSelector } from "react-redux";
-import { formatRupiah } from "./utils";
-
+import { formatRupiah, totalHarga, next, before } from "./utils";
+import IconButton from "@material-ui/core/IconButton";
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -36,7 +36,7 @@ const StyledTableRow = withStyles((theme) => ({
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
 }
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 700,
   },
@@ -46,11 +46,17 @@ const useStyles = makeStyles({
     display: "flex",
     justifyContent: "flex-end",
   },
-});
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+}));
 
 export default function CustomizedTables() {
   const classes = useStyles();
   const bahan = useSelector((state) => state.daftarItem.daftarItem);
+  const [nextPage, setNextPage] = React.useState(3);
+  const [beforePage, setBeforePage] = React.useState(0);
+  const currentPage = bahan.slice(beforePage, nextPage);
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">
@@ -66,52 +72,78 @@ export default function CustomizedTables() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {bahan &&
-            bahan.map((row) => (
-              <StyledTableRow key={row.key}>
-                <StyledTableCell component="th" scope="row">
-                  {row.nama}
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  {row.tanggalBeli}
-                </StyledTableCell>
-                <StyledTableCell align="right">{row.stok}</StyledTableCell>
-                <StyledTableCell align="right">{row.satuan}</StyledTableCell>
-                <StyledTableCell align="right">
-                  {formatRupiah(row.hargaPerSatuan)}
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  {formatRupiah(row.totalHarga)}
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    className={classes.button}
-                    startIcon={<EditIcon />}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    style={{
-                      backgroundColor: "maroon",
-                      color: "white",
-                      marginLeft: 10,
-                    }}
-                    variant="contained"
-                    className={classes.button}
-                    startIcon={<DeleteIcon />}
-                  >
-                    Delete
-                  </Button>
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
+          {currentPage &&
+            currentPage.map((row) => {
+              return (
+                <StyledTableRow key={row.key}>
+                  <StyledTableCell component="th" scope="row">
+                    {row.nama}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {row.tanggalBeli}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">{row.stok}</StyledTableCell>
+                  <StyledTableCell align="right">{row.satuan}</StyledTableCell>
+                  <StyledTableCell align="right">
+                    {formatRupiah(row.hargaPerSatuan)}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {totalHarga(row.stok, row.hargaPerSatuan)}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      className={classes.button}
+                      startIcon={<EditIcon />}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      style={{
+                        backgroundColor: "maroon",
+                        color: "white",
+                        marginLeft: 10,
+                      }}
+                      variant="contained"
+                      className={classes.button}
+                      startIcon={<DeleteIcon />}
+                    >
+                      Delete
+                    </Button>
+                  </StyledTableCell>
+                </StyledTableRow>
+              );
+            })}
         </TableBody>
       </Table>
       <div className={classes.pagination}>
-        <ArrowBackIosIcon fontSize="small" />
-        <ArrowForwardIosIcon fontSize="small" style={{ marginLeft: 20 }} />
+        <IconButton
+          disabled={beforePage <= 0 ? true : false}
+          onClick={() =>
+            before(beforePage, setBeforePage, setNextPage, nextPage)
+          }
+          size="small"
+          edge="start"
+          className={classes.menuButton}
+          color="inherit"
+          aria-label="menu"
+        >
+          <ArrowBackIosIcon />
+        </IconButton>
+        <IconButton
+          disabled={nextPage >= bahan.length ? true : false}
+          onClick={() =>
+            next(nextPage, bahan, setBeforePage, setNextPage, beforePage)
+          }
+          size="small"
+          edge="start"
+          className={classes.menuButton}
+          color="inherit"
+          aria-label="menu"
+        >
+          <ArrowForwardIosIcon />
+        </IconButton>
       </div>
     </TableContainer>
   );
