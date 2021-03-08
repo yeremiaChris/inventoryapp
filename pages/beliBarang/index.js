@@ -5,7 +5,6 @@ import TopBar from "../../components/utils/topBar";
 import Sidebar from "../../components/utils/Sidebar";
 import Footer from "../../components/utils/footer";
 import BeliItem from "../../components/beliItem";
-
 function index() {
   return (
     <>

@@ -7,7 +7,11 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-
+import { useSelector } from "react-redux";
+import { formatRupiah } from "./utils";
+import Button from "@material-ui/core/Button";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -36,10 +40,15 @@ const useStyles = makeStyles({
   table: {
     minWidth: 700,
   },
+  containerButton: {
+    justifyContent: "flex-end",
+    padding: 10,
+  },
 });
 
 export default function formBeliItem() {
   const classes = useStyles();
+  const beliItem = useSelector((state) => state.daftarItem.daftarBeliItem);
 
   return (
     <TableContainer component={Paper}>
@@ -56,21 +65,51 @@ export default function formBeliItem() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <StyledTableRow key={row.name}>
-              <StyledTableCell component="th" scope="row">
-                {row.name}
-              </StyledTableCell>
-              <StyledTableCell align="right">{row.calories}</StyledTableCell>
-              <StyledTableCell align="right">{row.fat}</StyledTableCell>
-              <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-              <StyledTableCell align="right">{row.protein}</StyledTableCell>
-              <StyledTableCell align="right">{row.protein}</StyledTableCell>
-              <StyledTableCell align="right">{row.protein}</StyledTableCell>
-            </StyledTableRow>
-          ))}
+          {beliItem &&
+            beliItem.map((row) => (
+              <StyledTableRow key={row.key}>
+                <StyledTableCell component="th" scope="row">
+                  {row.namaBarang}
+                </StyledTableCell>
+                <StyledTableCell align="right">{row.satuan}</StyledTableCell>
+                <StyledTableCell align="right">{row.stokAwal}</StyledTableCell>
+                <StyledTableCell align="right">
+                  {row.jumlahBeli}
+                </StyledTableCell>
+                <StyledTableCell align="right">{row.totalStok}</StyledTableCell>
+                <StyledTableCell align="right">
+                  {formatRupiah(row.hargaSatuan)}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {formatRupiah(row.totalHarga)}
+                </StyledTableCell>
+              </StyledTableRow>
+            ))}
         </TableBody>
       </Table>
+      <div
+        style={{ display: beliItem.length === 0 ? "none" : "flex" }}
+        className={classes.containerButton}
+      >
+        <Button
+          style={{
+            backgroundColor: "maroon",
+            color: "white",
+          }}
+          variant="contained"
+          startIcon={<RotateLeftIcon />}
+        >
+          Reset
+        </Button>
+        <Button
+          style={{ marginLeft: 10 }}
+          variant="contained"
+          color="secondary"
+          startIcon={<ShoppingCartIcon />}
+        >
+          Beli
+        </Button>
+      </div>
     </TableContainer>
   );
 }

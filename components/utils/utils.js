@@ -141,8 +141,15 @@ export const fieldList = [
 ];
 export const fieldListDua = [
   {
+    nama: "Pilih barang",
+    key: "2",
+    select: true,
+    selection: select,
+  },
+  {
     nama: "Jumlah beli",
     key: "1",
+    value: "jumlahBeli",
   },
 ];
 
@@ -154,11 +161,16 @@ export const tambahSchema = Yup.object().shape({
     .min(5, "Too Short!")
     .max(50, "Too Long!")
     .required("Required"),
-  satuan: Yup.string()
-    .min(2, "Too Short!")
-    .max(50, "Too Long!")
-    .required("Required"),
+  satuan: Yup.string().required("Required"),
   hargaPerSatuan: Yup.number().required("Required"),
+});
+// validation schema beli barang
+export const beliSchema = Yup.object().shape({
+  namaBarang: Yup.string().required("Required"),
+  jumlahBeli: Yup.number()
+    .min(1, "Tidak boleh nol")
+    .max(50, "Jumlah beli Tidak boleh lebih dari 50")
+    .required("Required"),
 });
 
 // handlechange tambah barang di field nya

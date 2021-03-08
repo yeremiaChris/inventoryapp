@@ -29,12 +29,26 @@ const useStyles = makeStyles((theme) => ({
 }));
 function beliItem() {
   const classes = useStyles();
+  // state menampilkan dialog
+  const [open, setOpen] = React.useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+  // akhir state menampilkan dialog
   return (
     <Grid container className={classes.container}>
       <Grid item lg={12} className={classes.wrapper}>
         <h1 className={classes.header}>Form Pembelian Barang</h1>
       </Grid>
       <Grid item lg={12}>
+        <DialogFormTambahBrg
+          open={open}
+          handleClickOpen={handleClickOpen}
+          handleClose={handleClose}
+        />
         <FormBeliItem />
       </Grid>
     </Grid>

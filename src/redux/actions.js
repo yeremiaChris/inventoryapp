@@ -1,4 +1,4 @@
-import { TAMBAH_ITEM, HAPUS_ITEM, EDIT_ITEM } from "./actionType";
+import { TAMBAH_ITEM, HAPUS_ITEM, EDIT_ITEM, BELI_ITEM } from "./actionType";
 import swal from "sweetalert";
 // crud item
 export const tambahItem = (data) => {
@@ -33,5 +33,23 @@ export const editItem = (data) => {
       satuan: data.satuan,
       hargaPerSatuan: data.hargaPerSatuan,
     });
+  };
+};
+
+// pembelian
+export const beliItem = (data, detail, handleClose) => {
+  return (dispatch) => {
+    const obj = {
+      namaBarang: detail.nama,
+      satuan: detail.satuan,
+      stokAwal: detail.stokAwal,
+      jumlahBeli: data.jumlahBeli,
+      totalStok: detail.totalStok,
+      hargaSatuan: detail.hargaSatuan,
+      totalHarga: data.jumlahBeli * detail.hargaSatuan,
+      key: Math.random(),
+    };
+    dispatch({ type: BELI_ITEM, data: obj });
+    handleClose();
   };
 };

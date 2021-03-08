@@ -105,7 +105,6 @@ export default function tableDaftarBarang({ handleClickOpen, setDetail }) {
                       onClick={() => edit(row)}
                       variant="contained"
                       color="secondary"
-                      className={classes.button}
                       startIcon={<EditIcon />}
                     >
                       Edit
@@ -118,7 +117,6 @@ export default function tableDaftarBarang({ handleClickOpen, setDetail }) {
                         marginLeft: 10,
                       }}
                       variant="contained"
-                      className={classes.button}
                       startIcon={<DeleteIcon />}
                     >
                       Delete
