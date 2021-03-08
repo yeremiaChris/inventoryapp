@@ -35,7 +35,6 @@ function beliItem() {
         <h1 className={classes.header}>Form Pembelian Barang</h1>
       </Grid>
       <Grid item lg={12}>
-        <DialogFormTambahBrg />
         <FormBeliItem />
       </Grid>
     </Grid>

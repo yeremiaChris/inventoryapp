@@ -15,6 +15,7 @@ import {
   tambahSchema,
   handleChangeTambahBarang,
   submitItem,
+  editButton,
 } from "./utils";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -24,6 +25,7 @@ import { useRouter } from "next/router";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import { useDispatch } from "react-redux";
 import { Formik } from "formik";
+import EditIcon from "@material-ui/icons/Edit";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -45,33 +47,31 @@ const useStyles = makeStyles((theme) => ({
   error: {
     color: "red",
   },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
 }));
-export default function FormDialog() {
-  const [open, setOpen] = React.useState(false);
+export default function FormDialog({
+  open,
+  handleClickOpen,
+  handleClose,
+  detail,
+}) {
   const router = useRouter();
-  console.log(router);
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
   const classes = useStyles();
   const [jumlah, setJumlah] = React.useState(0);
   const dispatch = useDispatch();
   return (
     <div>
-      {router.pathname === "/daftarBarang" ? (
-        <Button
-          onClick={handleClickOpen}
-          className={classes.button}
-          startIcon={<AddIcon />}
-        >
-          Tambah
-        </Button>
-      ) : (
-        <Button
+      <Button
+        onClick={handleClickOpen}
+        className={classes.button}
+        startIcon={<AddIcon />}
+      >
+        Tambah
+      </Button>
+
+      {/* <Button
           style={{ marginBottom: 10 }}
           variant="contained"
           color="secondary"
@@ -79,8 +79,7 @@ export default function FormDialog() {
           startIcon={<AddShoppingCartIcon />}
         >
           Pilih barang beli
-        </Button>
-      )}
+        </Button> */}
 
       <Dialog
         open={open}
@@ -88,13 +87,26 @@ export default function FormDialog() {
         aria-labelledby="form-dialog-title"
       >
         <Formik
-          initialValues={{
-            nama: "",
-            satuan: "",
-            hargaPerSatuan: "",
-          }}
+          initialValues={
+            detail === undefined
+              ? {
+                  nama: "",
+                  satuan: "",
+                  hargaPerSatuan: "",
+                }
+              : {
+                  nama: detail.nama,
+                  satuan: detail.satuan,
+                  hargaPerSatuan: detail.hargaPerSatuan,
+                  key: detail.key,
+                }
+          }
           validationSchema={tambahSchema}
-          onSubmit={(data) => submitItem(data, dispatch, handleClose)}
+          onSubmit={(data) =>
+            detail === undefined
+              ? submitItem(data, dispatch, handleClose)
+              : editButton(dispatch, data, handleClose)
+          }
         >
           {({
             values,
@@ -108,101 +120,88 @@ export default function FormDialog() {
             return (
               <>
                 <form onSubmit={handleSubmit}>
-                  {router.pathname === "/daftarBarang" ? (
-                    <>
-                      <DialogTitle id="form-dialog-title">
-                        Tambah Barang
-                      </DialogTitle>
-                      <DialogContent className={classes.dialog}>
-                        {fieldList &&
-                          fieldList.map((item) =>
-                            item.select ? (
-                              <div key={item.key}>
-                                <FormControl
-                                  fullWidth
-                                  className={classes.formControl}
-                                >
-                                  <InputLabel id="demo-simple-select-label">
-                                    {item.nama}
-                                  </InputLabel>
-                                  <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={values.satuan}
-                                    onChange={handleChange("satuan")}
-                                  >
-                                    {item.selection &&
-                                      item.selection.map((item) => {
-                                        return (
-                                          <MenuItem
-                                            key={item.key}
-                                            value={item.nama}
-                                          >
-                                            {item.nama}
-                                          </MenuItem>
-                                        );
-                                      })}
-                                  </Select>
-                                </FormControl>
-                                {errors.satuan && touched.satuan ? (
+                  <DialogTitle id="form-dialog-title">
+                    {detail === undefined ? "Tambah Item" : "Update Item"}
+                  </DialogTitle>
+                  <DialogContent className={classes.dialog}>
+                    {fieldList &&
+                      fieldList.map((item) =>
+                        item.select ? (
+                          <div key={item.key}>
+                            <FormControl
+                              fullWidth
+                              className={classes.formControl}
+                            >
+                              <InputLabel id="demo-simple-select-label">
+                                {item.nama}
+                              </InputLabel>
+                              <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={values.satuan}
+                                onChange={handleChange("satuan")}
+                              >
+                                {item.selection &&
+                                  item.selection.map((item) => {
+                                    return (
+                                      <MenuItem
+                                        key={item.key}
+                                        value={item.nama}
+                                      >
+                                        {item.nama}
+                                      </MenuItem>
+                                    );
+                                  })}
+                              </Select>
+                            </FormControl>
+                            {errors.satuan && touched.satuan ? (
+                              <div className={classes.error}>
+                                {errors.satuan}
+                              </div>
+                            ) : null}
+                          </div>
+                        ) : (
+                          <div key={item.key}>
+                            <TextField
+                              className={classes.field}
+                              margin="dense"
+                              id="name"
+                              label={item.nama}
+                              type={item.value === "nama" ? "text" : "number"}
+                              fullWidth
+                              onChange={(e) =>
+                                handleChangeTambahBarang(e, item, setFieldValue)
+                              }
+                              value={
+                                item.value === "nama"
+                                  ? values.nama
+                                  : values.hargaPerSatuan
+                              }
+                            />
+                            {item.value === "nama" ? (
+                              <div>
+                                {errors.nama && touched.nama ? (
                                   <div className={classes.error}>
-                                    {errors.satuan}
+                                    {errors.nama}
                                   </div>
                                 ) : null}
                               </div>
                             ) : (
-                              <div key={item.key}>
-                                <TextField
-                                  className={classes.field}
-                                  margin="dense"
-                                  id="name"
-                                  label={item.nama}
-                                  type={
-                                    item.value === "nama" ? "text" : "number"
-                                  }
-                                  fullWidth
-                                  onChange={(e) =>
-                                    handleChangeTambahBarang(
-                                      e,
-                                      item,
-                                      setFieldValue
-                                    )
-                                  }
-                                  value={
-                                    item.value === "nama"
-                                      ? values.nama
-                                      : values.hargaPerSatuan
-                                  }
-                                />
-                                {item.value === "nama" ? (
-                                  <div>
-                                    {errors.nama && touched.nama ? (
-                                      <div className={classes.error}>
-                                        {errors.nama}
-                                      </div>
-                                    ) : null}
+                              <div>
+                                {errors.hargaPerSatuan &&
+                                touched.hargaPerSatuan ? (
+                                  <div className={classes.error}>
+                                    {errors.hargaPerSatuan}
                                   </div>
-                                ) : (
-                                  <div>
-                                    {errors.hargaPerSatuan &&
-                                    touched.hargaPerSatuan ? (
-                                      <div className={classes.error}>
-                                        {errors.hargaPerSatuan}
-                                      </div>
-                                    ) : null}
-                                  </div>
-                                )}
+                                ) : null}
                               </div>
-                            )
-                          )}
-                      </DialogContent>
-                    </>
-                  ) : (
-                    <>
-                      <DialogTitle id="form-dialog-title">
-                        Beli barang
-                      </DialogTitle>
-                      {/* <DialogContent className={classes.dialog}>
+                            )}
+                          </div>
+                        )
+                      )}
+                  </DialogContent>
+                  {/* <DialogTitle id="form-dialog-title">Beli barang</DialogTitle> */}
+                  {/* <DialogContent className={classes.dialog}>
                         <FormControl fullWidth className={classes.formControl}>
                           <InputLabel htmlFor="age-native-simple">
                             Pilih barang
@@ -270,8 +269,6 @@ export default function FormDialog() {
                           </div>
                         </div>
                       </DialogContent> */}
-                    </>
-                  )}
 
                   <DialogActions>
                     <Button onClick={handleClose} color="primary">

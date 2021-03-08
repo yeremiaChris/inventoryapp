@@ -27,7 +27,10 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: theme.spacing(1),
       width: "auto",
     },
-    border: "2px solid #e2e2e2",
+    border: "1px solid #e2e2e2",
+    "&:hover": {
+      border: "1px solid black",
+    },
     alignItems: "center",
     display: "flex",
     marginBottom: 10,

@@ -32,24 +32,36 @@ const useStyles = makeStyles((theme) => ({
 }));
 function daftarItem() {
   const classes = useStyles();
+  // state detail untuk edit
+  const [detail, setDetail] = React.useState();
+  // state menampilkan dialog
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
     setOpen(true);
   };
-
   const handleClose = () => {
+    setDetail();
     setOpen(false);
   };
+  // akhir state menampilkan dialog
+
   return (
     <Grid container className={classes.container}>
       <Grid item lg={12} className={classes.wrapper}>
         <h1 className={classes.header}>Daftar Barang</h1>
-
-        <ButtonDialogFormTambahBarang />
+        <ButtonDialogFormTambahBarang
+          open={open}
+          handleClickOpen={handleClickOpen}
+          handleClose={handleClose}
+          detail={detail}
+        />
       </Grid>
       <Grid item lg={12}>
         <ButtonSortDaftarBrg />
-        <TableDaftarBarang />
+        <TableDaftarBarang
+          setDetail={setDetail}
+          handleClickOpen={handleClickOpen}
+        />
       </Grid>
     </Grid>
   );

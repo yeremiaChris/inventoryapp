@@ -16,8 +16,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { formatRupiah, totalHarga, next, before } from "./utils";
 import IconButton from "@material-ui/core/IconButton";
 import { hapusItem } from "../../src/redux/actions";
-import { useRouter } from "next/router";
-
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -54,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CustomizedTables() {
+export default function tableDaftarBarang({ handleClickOpen, setDetail }) {
   const classes = useStyles();
   const bahan = useSelector((state) => state.daftarItem.daftarItem);
   // state pagination
@@ -64,9 +62,10 @@ export default function CustomizedTables() {
   // akhir state pagination
   // dispatch
   const dispatch = useDispatch();
-  const router = useRouter();
-  const edit = (id) => {
-    router.push(`/daftarBarang/id`);
+  // button edit
+  const edit = (data) => {
+    setDetail(data);
+    handleClickOpen();
   };
   return (
     <TableContainer component={Paper}>
@@ -103,7 +102,7 @@ export default function CustomizedTables() {
                   </StyledTableCell>
                   <StyledTableCell align="right">
                     <Button
-                      onClick={() => edit(row.nama)}
+                      onClick={() => edit(row)}
                       variant="contained"
                       color="secondary"
                       className={classes.button}

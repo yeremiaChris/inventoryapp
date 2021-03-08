@@ -3,7 +3,7 @@ import PermDataSettingIcon from "@material-ui/icons/PermDataSetting";
 import HourglassEmptyIcon from "@material-ui/icons/HourglassEmpty";
 import HourglassFullIcon from "@material-ui/icons/HourglassFull";
 import * as Yup from "yup";
-import { tambahItem } from "../../src/redux/actions";
+import { tambahItem, editItem } from "../../src/redux/actions";
 import moment from "moment"; // item untuk dashboard\
 import "moment/locale/id";
 
@@ -188,8 +188,25 @@ export const submitItem = (data, dispatch, handleClose) => {
     totalHarga: 4000,
     key: key,
   };
-  console.log(obj);
-  dispatch(tambahItem(obj));
+  if (data) {
+    dispatch(tambahItem(obj));
+    swal("Berhasil menambah item!", "", "success");
+  }
+  handleClose();
+};
+// edit item
+export const editButton = (dispatch, data, handleClose) => {
+  console.log(data);
+  const obj = {
+    hargaPerSatuan: data.hargaPerSatuan,
+    nama: data.nama,
+    satuan: data.satuan,
+    key: data.key,
+  };
+  if (data) {
+    dispatch(editItem(data));
+    swal("Berhasil update item!", "", "success");
+  }
   handleClose();
 };
 

@@ -22,7 +22,7 @@ const initialState = {
     {
       nama: "Cap kopi",
       stok: 0,
-      satuan: "pcs",
+      satuan: "Pcs",
       tanggalBeli: "12 Nov 2021",
       hargaPerSatuan: 5000,
       totalHarga: 5000,
@@ -31,7 +31,7 @@ const initialState = {
     {
       nama: "Sedotan",
       stok: 0,
-      satuan: "pack",
+      satuan: "Pack",
       tanggalBeli: "23 Nov 2021",
       hargaPerSatuan: 7000,
       totalHarga: 7000,
@@ -40,7 +40,7 @@ const initialState = {
     {
       nama: "Sedotan",
       stok: 0,
-      satuan: "pack",
+      satuan: "Pack",
       tanggalBeli: "23 Nov 2021",
       hargaPerSatuan: 7000,
       totalHarga: 7000,
@@ -49,7 +49,7 @@ const initialState = {
     {
       nama: "Capuchino kopi",
       stok: 0,
-      satuan: "kg",
+      satuan: "Kg",
       tanggalBeli: "10 Nov 2021",
       hargaPerSatuan: 4000,
       totalHarga: 4000,
