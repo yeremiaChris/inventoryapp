@@ -1,4 +1,11 @@
-import { TAMBAH_ITEM, HAPUS_ITEM, EDIT_ITEM, BELI_ITEM } from "./actionType";
+import {
+  TAMBAH_ITEM,
+  HAPUS_ITEM,
+  EDIT_ITEM,
+  BELI_ITEM,
+  RESET_ITEM,
+  LAPORAN_PEMBELIAN,
+} from "./actionType";
 const initialState = {
   daftarItem: [
     {
@@ -57,6 +64,7 @@ const initialState = {
     },
   ],
   daftarBeliItem: [],
+  laporanPembelian: [],
 };
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -97,6 +105,18 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         daftarBeliItem: [action.data, ...state.daftarBeliItem],
+      };
+      break;
+    case RESET_ITEM:
+      return {
+        ...state,
+        daftarBeliItem: [],
+      };
+      break;
+    case LAPORAN_PEMBELIAN:
+      return {
+        ...state,
+        laporanPembelian: [...state.laporanPembelian, action.laporan],
       };
       break;
     default:

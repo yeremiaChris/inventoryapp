@@ -5,7 +5,9 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
-import { urutkan } from "./utils";
+import { urutkan, urutkanLaporan } from "./utils";
+import { useRouter } from "next/router";
+
 const useStyles = makeStyles((theme) => ({
   formControl: {
     marginBottom: 10,
@@ -76,6 +78,7 @@ export default function NativeSelects() {
     });
   };
 
+  const router = useRouter();
   return (
     <div className={classes.container}>
       <div>
@@ -92,14 +95,23 @@ export default function NativeSelects() {
             }}
           >
             <option aria-label="None" value="" />
-            {urutkan &&
-              urutkan.map((item) => {
-                return (
-                  <option key={item.key} value={item.nama}>
-                    {item.nama}
-                  </option>
-                );
-              })}
+            {router.pathname === "/daftarBarang"
+              ? urutkan &&
+                urutkan.map((item) => {
+                  return (
+                    <option key={item.key} value={item.nama}>
+                      {item.nama}
+                    </option>
+                  );
+                })
+              : urutkanLaporan &&
+                urutkanLaporan.map((item) => {
+                  return (
+                    <option key={item.key} value={item.nama}>
+                      {item.nama}
+                    </option>
+                  );
+                })}
           </Select>
         </FormControl>
       </div>

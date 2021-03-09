@@ -7,11 +7,14 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { formatRupiah } from "./utils";
 import Button from "@material-ui/core/Button";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
+import { resetItem, laporanPembelian } from "../../src/redux/actions";
+import { useRouter } from "next/router";
+
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -49,7 +52,18 @@ const useStyles = makeStyles({
 export default function formBeliItem() {
   const classes = useStyles();
   const beliItem = useSelector((state) => state.daftarItem.daftarBeliItem);
-
+  // total
+  const dispatch = useDispatch();
+  const total = () => {
+    if (beliItem.length <= 1) {
+      return beliItem.map((item) => formatRupiah(item.totalHarga));
+    } else {
+      return beliItem.reduce((acc, curr) =>
+        formatRupiah(acc.totalHarga + curr.totalHarga, 0)
+      );
+    }
+  };
+  const router = useRouter();
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">
@@ -88,10 +102,21 @@ export default function formBeliItem() {
         </TableBody>
       </Table>
       <div
+        style={{
+          display: beliItem.length === 0 ? "none" : "flex",
+          fontFamily: "Arial",
+        }}
+        className={classes.containerButton}
+      >
+        <h2 style={{ margin: 0 }}>Total</h2>
+        <h2 style={{ margin: 0, marginLeft: 10 }}>{total()}</h2>
+      </div>
+      <div
         style={{ display: beliItem.length === 0 ? "none" : "flex" }}
         className={classes.containerButton}
       >
         <Button
+          onClick={() => dispatch(resetItem())}
           style={{
             backgroundColor: "maroon",
             color: "white",
@@ -102,6 +127,10 @@ export default function formBeliItem() {
           Reset
         </Button>
         <Button
+          onClick={() => {
+            dispatch(laporanPembelian(beliItem));
+            router.push("/laporan/laporanPembelian");
+          }}
           style={{ marginLeft: 10 }}
           variant="contained"
           color="secondary"

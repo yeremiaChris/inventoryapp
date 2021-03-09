@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Akaya+Kanadaka&display=swap");
+
 body {
   background-color: #efefef;
 }
@@ -5,12 +7,13 @@ body {
 .sideItem {
   background-color: black;
   border-radius: 15px;
-  height: 240px;
+  height: 300px;
   color: white;
   padding: 10px;
   opacity: 4;
 }
 .container {
   margin: auto;
-  font-family: "Akaya Kanadaka";
+  /* font-family: "Akaya Kanadaka"; */
+  font-family: "Calibri";
 }

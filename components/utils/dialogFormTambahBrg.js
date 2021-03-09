@@ -298,6 +298,8 @@ export default function FormDialog({
                                 onChange={(e) => {
                                   if (!Number(e.target.value)) {
                                     return;
+                                  } else if (e.target.value < 0) {
+                                    return setFieldValue("jumlahBeli", 0);
                                   }
                                   setDetailInfoBeli((prevState) => ({
                                     ...prevState,

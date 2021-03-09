@@ -39,6 +39,11 @@ export const routePath = [
     key: "3",
     path: "/beliBarang",
   },
+  {
+    nama: "Laporan Pembelian",
+    key: "4",
+    path: "/laporan/laporanPembelian",
+  },
 ];
 
 // ini state dashboard untuk box dashboard
@@ -89,6 +94,25 @@ export const urutkan = [
   },
   {
     nama: "Stok terbanyak",
+    key: "4",
+  },
+];
+// sort atau urutkan di laporan pembelian
+export const urutkanLaporan = [
+  {
+    nama: "Terbaru",
+    key: "1",
+  },
+  {
+    nama: "Seminggu ini",
+    key: "2",
+  },
+  {
+    nama: "Sebulan ini",
+    key: "3",
+  },
+  {
+    nama: "Setahun ini",
     key: "4",
   },
 ];

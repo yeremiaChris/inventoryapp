@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, makeStyles } from "@material-ui/core";
 import TableDaftarBarang from "./utils/tableDaftarBarang";
-import ButtonSortDaftarBrg from "./utils/buttonSortDaftarBrg";
+import ButtonSortDaftarBrg from "./utils/buttonSort";
 import ButtonDialogFormTambahBarang from "./utils/dialogFormTambahBrg";
 
 const useStyles = makeStyles((theme) => ({
