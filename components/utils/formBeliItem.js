@@ -8,13 +8,15 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { useSelector, useDispatch } from "react-redux";
-import { formatRupiah } from "./utils";
+import { formatRupiah, before, next } from "./utils";
 import Button from "@material-ui/core/Button";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 import { resetItem, laporanPembelian } from "../../src/redux/actions";
 import { useRouter } from "next/router";
-
+import IconButton from "@material-ui/core/IconButton";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -33,13 +35,7 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [];
-
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 700,
   },
@@ -47,7 +43,15 @@ const useStyles = makeStyles({
     justifyContent: "flex-end",
     padding: 10,
   },
-});
+  pagination: {
+    padding: 20,
+    paddingRight: 0,
+    justifyContent: "flex-end",
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+}));
 
 export default function formBeliItem() {
   const classes = useStyles();
@@ -68,6 +72,11 @@ export default function formBeliItem() {
   const router = useRouter();
   // make state un
   const [resetState, setResetState] = React.useState(false);
+
+  // pagination
+  const [nextPage, setNextPage] = React.useState(3);
+  const [beforePage, setBeforePage] = React.useState(0);
+  const currentPage = beliItem.slice(beforePage, nextPage);
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">
@@ -83,9 +92,9 @@ export default function formBeliItem() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {beliItem &&
-            beliItem.map((row) => (
-              <StyledTableRow key={row.key}>
+          {currentPage &&
+            currentPage.map((row, index) => (
+              <StyledTableRow key={index}>
                 <StyledTableCell component="th" scope="row">
                   {row.namaBarang}
                 </StyledTableCell>
@@ -105,6 +114,40 @@ export default function formBeliItem() {
             ))}
         </TableBody>
       </Table>
+      <div
+        style={{
+          display: beliItem.length <= 3 ? "none" : "flex",
+          fontFamily: "Arial",
+        }}
+        className={classes.pagination}
+      >
+        <IconButton
+          disabled={beforePage <= 0 ? true : false}
+          onClick={() =>
+            before(beforePage, setBeforePage, setNextPage, nextPage)
+          }
+          size="small"
+          edge="start"
+          className={classes.menuButton}
+          color="inherit"
+          aria-label="menu"
+        >
+          <ArrowBackIosIcon />
+        </IconButton>
+        <IconButton
+          disabled={nextPage >= beliItem.length ? true : false}
+          onClick={() =>
+            next(nextPage, beliItem, setBeforePage, setNextPage, beforePage)
+          }
+          size="small"
+          edge="start"
+          className={classes.menuButton}
+          color="inherit"
+          aria-label="menu"
+        >
+          <ArrowForwardIosIcon />
+        </IconButton>
+      </div>
       <div
         style={{
           display: beliItem.length === 0 ? "none" : "flex",

@@ -95,5 +95,8 @@ export const laporanPembelian = (laporan, reset) => {
     });
     dispatch({ type: LAPORAN_PEMBELIAN, laporan: obj });
     dispatch({ type: RESET_ITEM });
+    swal("Berhasil beli item !", {
+      icon: "success",
+    });
   };
 };

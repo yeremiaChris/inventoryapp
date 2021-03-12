@@ -8,8 +8,11 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { useSelector } from "react-redux";
-import { formatRupiah } from "./utils";
+import { formatRupiah, before, next } from "./utils";
 import DetailLaporanDialog from "./detailLaporanDialog";
+import IconButton from "@material-ui/core/IconButton";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -17,6 +20,7 @@ const StyledTableCell = withStyles((theme) => ({
   },
   body: {
     fontSize: 14,
+    cursor: "pointer",
   },
 }))(TableCell);
 
@@ -24,14 +28,13 @@ const StyledTableRow = withStyles((theme) => ({
   root: {
     "&:nth-of-type(odd)": {
       backgroundColor: theme.palette.action.hover,
-      cursor: "pointer",
     },
   },
 }))(TableRow);
 
 const rows = [];
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 700,
   },
@@ -39,7 +42,15 @@ const useStyles = makeStyles({
     justifyContent: "flex-end",
     padding: 10,
   },
-});
+  pagination: {
+    padding: 20,
+    paddingRight: 0,
+    justifyContent: "flex-end",
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+}));
 
 export default function formBeliItem() {
   const classes = useStyles();
@@ -54,6 +65,11 @@ export default function formBeliItem() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  // pagination
+  const [nextPage, setNextPage] = React.useState(3);
+  const [beforePage, setBeforePage] = React.useState(0);
+  const currentPage = laporan.slice(beforePage, nextPage);
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">
@@ -66,8 +82,8 @@ export default function formBeliItem() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {laporan &&
-            laporan.map((item) => {
+          {currentPage &&
+            currentPage.map((item) => {
               return (
                 <StyledTableRow
                   onClick={() =>
@@ -93,6 +109,40 @@ export default function formBeliItem() {
             })}
         </TableBody>
       </Table>
+      <div
+        style={{
+          display: laporan.length <= 3 ? "none" : "flex",
+          fontFamily: "Arial",
+        }}
+        className={classes.pagination}
+      >
+        <IconButton
+          disabled={beforePage <= 0 ? true : false}
+          onClick={() =>
+            before(beforePage, setBeforePage, setNextPage, nextPage)
+          }
+          size="small"
+          edge="start"
+          className={classes.menuButton}
+          color="inherit"
+          aria-label="menu"
+        >
+          <ArrowBackIosIcon />
+        </IconButton>
+        <IconButton
+          disabled={nextPage >= laporan.length ? true : false}
+          onClick={() =>
+            next(nextPage, laporan, setBeforePage, setNextPage, beforePage)
+          }
+          size="small"
+          edge="start"
+          className={classes.menuButton}
+          color="inherit"
+          aria-label="menu"
+        >
+          <ArrowForwardIosIcon />
+        </IconButton>
+      </div>
       <DetailLaporanDialog
         open={open}
         handleClose={handleClose}

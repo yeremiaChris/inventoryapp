@@ -7,11 +7,31 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import { formatRupiah } from "./utils";
-const useStyles = makeStyles({});
+import IconButton from "@material-ui/core/IconButton";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
+import { formatRupiah, before, next } from "./utils";
+const useStyles = makeStyles((theme) => ({
+  pagination: {
+    padding: 20,
+    paddingRight: 0,
+    justifyContent: "flex-end",
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+}));
 
 export default function TableDetailLaporanBeli({ detailLaporan }) {
   const classes = useStyles();
+
+  // pagination
+  const [nextPage, setNextPage] = React.useState(3);
+  const [beforePage, setBeforePage] = React.useState(0);
+  const currentPage =
+    detailLaporan === undefined
+      ? null
+      : detailLaporan.data.slice(beforePage, nextPage);
   return (
     <TableContainer component={Paper}>
       <Table aria-label="simple table">
@@ -27,8 +47,8 @@ export default function TableDetailLaporanBeli({ detailLaporan }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {detailLaporan.data &&
-            detailLaporan.data.map((row) => (
+          {currentPage &&
+            currentPage.map((row) => (
               <TableRow key={row.key}>
                 <TableCell component="th" scope="row">
                   {row.namaBarang}
@@ -43,6 +63,46 @@ export default function TableDetailLaporanBeli({ detailLaporan }) {
             ))}
         </TableBody>
       </Table>
+      <div
+        style={{
+          display: detailLaporan.data.length <= 3 ? "none" : "flex",
+          fontFamily: "Arial",
+        }}
+        className={classes.pagination}
+      >
+        <IconButton
+          disabled={beforePage <= 0 ? true : false}
+          onClick={() =>
+            before(beforePage, setBeforePage, setNextPage, nextPage)
+          }
+          size="small"
+          edge="start"
+          className={classes.menuButton}
+          color="inherit"
+          aria-label="menu"
+        >
+          <ArrowBackIosIcon />
+        </IconButton>
+        <IconButton
+          disabled={nextPage >= detailLaporan.data.length ? true : false}
+          onClick={() =>
+            next(
+              nextPage,
+              detailLaporan.data,
+              setBeforePage,
+              setNextPage,
+              beforePage
+            )
+          }
+          size="small"
+          edge="start"
+          className={classes.menuButton}
+          color="inherit"
+          aria-label="menu"
+        >
+          <ArrowForwardIosIcon />
+        </IconButton>
+      </div>
     </TableContainer>
   );
 }
