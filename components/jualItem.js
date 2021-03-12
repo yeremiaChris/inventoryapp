@@ -2,7 +2,7 @@ import React from "react";
 import { Grid, makeStyles } from "@material-ui/core";
 import FormBeliItem from "./utils/formBeliItem";
 import DialogFormTambahBrg from "./utils/dialogFormTambahBrg";
-import { fieldListDua } from "./utils/utils";
+import { fieldListTiga } from "./utils/utils";
 const useStyles = makeStyles((theme) => ({
   container: {
     marginLeft: 10,
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 10,
   },
 }));
-function beliItem() {
+function jualItem() {
   const classes = useStyles();
   // state menampilkan dialog
   const [open, setOpen] = React.useState(false);
@@ -41,15 +41,15 @@ function beliItem() {
   return (
     <Grid container className={classes.container}>
       <Grid item lg={12} className={classes.wrapper}>
-        <h1 className={classes.header}>Form Pembelian Barang</h1>
+        <h1 className={classes.header}>Form Penjualan Barang</h1>
       </Grid>
       <Grid item lg={12}>
         <DialogFormTambahBrg
           open={open}
           handleClickOpen={handleClickOpen}
           handleClose={handleClose}
-          fieldListDua={fieldListDua}
-          title="Pilih Barang Beli"
+          title="Pilih Barang Jual"
+          fieldListDua={fieldListTiga}
         />
         <FormBeliItem />
       </Grid>
@@ -57,4 +57,4 @@ function beliItem() {
   );
 }
 
-export default beliItem;
+export default jualItem;

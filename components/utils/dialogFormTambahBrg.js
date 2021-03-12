@@ -11,7 +11,6 @@ import AddIcon from "@material-ui/icons/Add";
 import {
   fieldList,
   bahan,
-  fieldListDua,
   tambahSchema,
   handleChangeTambahBarang,
   submitItem,
@@ -58,6 +57,8 @@ export default function FormDialog({
   handleClickOpen,
   handleClose,
   detail,
+  fieldListDua,
+  title,
 }) {
   const router = useRouter();
   const classes = useStyles();
@@ -74,6 +75,15 @@ export default function FormDialog({
     totalStok: 0,
     hargaSatuan: 0,
   });
+  // state detail pas pembelian
+  const [detailInfoJual, setDetailInfoJual] = React.useState({
+    nama: "",
+    stokAwal: 0,
+    jumlahBeli: 0,
+    hargaSatuan: 0,
+  });
+  // error jumlah jual lebih besar dari stok
+  const [error, setError] = React.useState("");
   // jumlahBeli
   const totalHarga = (a, b) => {
     const angka = a * b;
@@ -97,7 +107,7 @@ export default function FormDialog({
           onClick={handleClickOpen}
           startIcon={<AddShoppingCartIcon />}
         >
-          Pilih barang beli
+          {title}
         </Button>
       )}
 
@@ -154,9 +164,7 @@ export default function FormDialog({
                       {detail === undefined ? "Tambah Item" : "Update Item"}
                     </DialogTitle>
                   ) : (
-                    <DialogTitle id="form-dialog-title">
-                      Pilih barang beli
-                    </DialogTitle>
+                    <DialogTitle id="form-dialog-title">{title}</DialogTitle>
                   )}
 
                   <DialogContent className={classes.dialog}>
@@ -255,19 +263,39 @@ export default function FormDialog({
                                   labelId="demo-simple-select-label"
                                   value={values.namaBarang}
                                   onChange={(e) => {
-                                    bahan.map((item) =>
-                                      item.key === e.target.value
-                                        ? setDetailInfoBeli((prevState) => ({
-                                            ...prevState,
-                                            nama: item.nama,
-                                            satuan: item.satuan,
-                                            stokAwal: item.stok,
-                                            jumlahBeli: values.jumlahBeli,
-                                            hargaSatuan: item.hargaPerSatuan,
-                                            key: item.key,
-                                          }))
-                                        : null
-                                    );
+                                    router.pathname === "/beliBarang"
+                                      ? bahan.map((item) =>
+                                          item.key === e.target.value
+                                            ? setDetailInfoBeli(
+                                                (prevState) => ({
+                                                  ...prevState,
+                                                  nama: item.nama,
+                                                  satuan: item.satuan,
+                                                  stokAwal: item.stok,
+                                                  jumlahBeli: values.jumlahBeli,
+                                                  hargaSatuan:
+                                                    item.hargaPerSatuan,
+                                                  key: item.key,
+                                                })
+                                              )
+                                            : null
+                                        )
+                                      : bahan.map((item) =>
+                                          item.key === e.target.value
+                                            ? setDetailInfoJual(
+                                                (prevState) => ({
+                                                  ...prevState,
+                                                  nama: item.nama,
+                                                  satuan: item.satuan,
+                                                  stokAwal: item.stok,
+                                                  jumlahBeli: values.jumlahBeli,
+                                                  hargaSatuan:
+                                                    item.hargaPerSatuan,
+                                                  key: item.key,
+                                                })
+                                              )
+                                            : null
+                                        );
                                     setFieldValue("namaBarang", e.target.value);
                                   }}
                                 >
@@ -293,40 +321,88 @@ export default function FormDialog({
                             </div>
                           ) : (
                             <div key={item.key}>
-                              <TextField
-                                className={classes.field}
-                                key={item.key}
-                                onChange={(e) => {
-                                  if (!Number(e.target.value)) {
-                                    return;
-                                  } else if (e.target.value < 0) {
-                                    return setFieldValue("jumlahBeli", 0);
-                                  } else {
-                                    setDetailInfoBeli((prevState) => ({
-                                      ...prevState,
-                                      jumlahBeli: e.target.value,
-                                      totalStok:
-                                        detailInfoBeli.stokAwal === 0
-                                          ? parseInt(e.target.value)
-                                          : parseInt(detailInfoBeli.stokAwal) +
-                                            parseInt(e.target.value),
-                                    }));
-                                    setFieldValue("jumlahBeli", e.target.value);
-                                  }
-                                }}
-                                margin="dense"
-                                id="name"
-                                value={values.jumlahBeli}
-                                label={item.nama}
-                                type="number"
-                                fullWidth
-                              />
+                              {router.pathname === "/beliBarang" ? (
+                                <TextField
+                                  className={classes.field}
+                                  key={item.key}
+                                  onChange={(e) => {
+                                    if (!Number(e.target.value)) {
+                                      return;
+                                    } else if (e.target.value < 0) {
+                                      return setFieldValue("jumlahBeli", 0);
+                                    } else {
+                                      setDetailInfoBeli((prevState) => ({
+                                        ...prevState,
+                                        jumlahBeli: e.target.value,
+                                        totalStok:
+                                          detailInfoBeli.stokAwal === 0
+                                            ? parseInt(e.target.value)
+                                            : parseInt(
+                                                detailInfoBeli.stokAwal
+                                              ) + parseInt(e.target.value),
+                                      }));
+                                      setFieldValue(
+                                        "jumlahBeli",
+                                        e.target.value
+                                      );
+                                    }
+                                  }}
+                                  margin="dense"
+                                  id="name"
+                                  value={values.jumlahBeli}
+                                  label={item.nama}
+                                  type="number"
+                                  fullWidth
+                                />
+                              ) : (
+                                <TextField
+                                  className={classes.field}
+                                  key={item.key}
+                                  onChange={(e) => {
+                                    if (!Number(e.target.value)) {
+                                      return;
+                                    } else if (e.target.value < 0) {
+                                      return setFieldValue("jumlahBeli", 0);
+                                    } else if (
+                                      e.target.value > detailInfoBeli.stokAwal
+                                    ) {
+                                      setError(
+                                        "Tidak boleh lebih dari stok awal"
+                                      );
+                                      return setFieldValue(
+                                        "jumlahBeli",
+                                        detailInfoBeli.stokAwal
+                                      );
+                                    } else {
+                                      setError("");
+                                      setFieldValue(
+                                        "jumlahBeli",
+                                        e.target.value
+                                      );
+                                      setDetailInfoJual((prevState) => ({
+                                        ...prevState,
+                                        jumlahJual: parseInt(e.target.value),
+                                      }));
+                                    }
+                                  }}
+                                  margin="dense"
+                                  id="name"
+                                  value={values.jumlahBeli}
+                                  label={item.nama}
+                                  type="number"
+                                  fullWidth
+                                />
+                              )}
+
                               <div>
                                 {errors.jumlahBeli && touched.jumlahBeli ? (
                                   <div className={classes.error}>
                                     {errors.jumlahBeli}
                                   </div>
                                 ) : null}
+                              </div>
+                              <div className={classes.error}>
+                                {error.length > 0 ? error : null}
                               </div>
                               <div
                                 className={classes.containerKeteranganBarang}
@@ -344,7 +420,9 @@ export default function FormDialog({
                                   <p>JUMLAH BELI </p>
                                   <p>TOTAL STOK</p>
                                   <p>HARGA SATUAN</p>
-                                  <p>TOTAL HARGA</p>
+                                  {router.pathname === "/beliBarang" ? (
+                                    <p>TOTAL HARGA</p>
+                                  ) : null}
                                 </div>
                                 <div>
                                   <p>{detailInfoBeli.nama}</p>
@@ -355,12 +433,14 @@ export default function FormDialog({
                                   <p>
                                     {formatRupiah(detailInfoBeli.hargaSatuan)}
                                   </p>
-                                  <p>
-                                    {totalHarga(
-                                      values.jumlahBeli,
-                                      detailInfoBeli.hargaSatuan
-                                    )}
-                                  </p>
+                                  {router.pathname === "/beliBarang" ? (
+                                    <p>
+                                      {totalHarga(
+                                        values.jumlahBeli,
+                                        detailInfoBeli.hargaSatuan
+                                      )}
+                                    </p>
+                                  ) : null}
                                 </div>
                               </div>
                             </div>

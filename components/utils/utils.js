@@ -40,6 +40,11 @@ export const routePath = [
     path: "/beliBarang",
   },
   {
+    nama: "Form Penjualan",
+    key: "5",
+    path: "/jualBarang",
+  },
+  {
     nama: "Laporan Pembelian",
     key: "4",
     path: "/laporan/laporanPembelian",
@@ -172,6 +177,19 @@ export const fieldListDua = [
   },
   {
     nama: "Jumlah beli",
+    key: "1",
+    value: "jumlahBeli",
+  },
+];
+export const fieldListTiga = [
+  {
+    nama: "Pilih barang",
+    key: "2",
+    select: true,
+    selection: select,
+  },
+  {
+    nama: "Jumlah jual",
     key: "1",
     value: "jumlahBeli",
   },
