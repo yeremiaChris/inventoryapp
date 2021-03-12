@@ -250,21 +250,21 @@ export default function FormDialog({
                               >
                                 <InputLabel id="demo-simple-select-label">
                                   {item.nama}
-                                </InputLabel>
                                 <Select
                                   labelId="demo-simple-select-label"
                                   value={values.namaBarang}
                                   onChange={(e) => {
                                     bahan.map((item) =>
                                       item.key === e.target.value
-                                        ? setDetailInfoBeli({
+                                        ? setDetailInfoBeli((prevState) => ({
+                                            ...prevState,
                                             nama: item.nama,
                                             satuan: item.satuan,
                                             stokAwal: item.stok,
                                             jumlahBeli: values.jumlahBeli,
                                             hargaSatuan: item.hargaPerSatuan,
-                                            totalStok: item.stok,
-                                          })
+                                            key: item.key,
+                                          }))
                                         : null
                                     );
                                     setFieldValue("namaBarang", e.target.value);
@@ -300,17 +300,18 @@ export default function FormDialog({
                                     return;
                                   } else if (e.target.value < 0) {
                                     return setFieldValue("jumlahBeli", 0);
+                                  } else {
+                                    setDetailInfoBeli((prevState) => ({
+                                      ...prevState,
+                                      jumlahBeli: e.target.value,
+                                      totalStok:
+                                        detailInfoBeli.stokAwal === 0
+                                          ? parseInt(e.target.value)
+                                          : detailInfoBeli.stokAwal *
+                                            e.target.value,
+                                    }));
+                                    setFieldValue("jumlahBeli", e.target.value);
                                   }
-                                  setDetailInfoBeli((prevState) => ({
-                                    ...prevState,
-                                    jumlahBeli: e.target.value,
-                                    totalStok:
-                                      detailInfoBeli.stokAwal === 0
-                                        ? e.target.value
-                                        : detailInfoBeli.stokAwal *
-                                          e.target.value,
-                                  }));
-                                  setFieldValue("jumlahBeli", e.target.value);
                                 }}
                                 margin="dense"
                                 id="name"

@@ -52,18 +52,22 @@ const useStyles = makeStyles({
 export default function formBeliItem() {
   const classes = useStyles();
   const beliItem = useSelector((state) => state.daftarItem.daftarBeliItem);
-  // total
   const dispatch = useDispatch();
+  // total
   const total = () => {
     if (beliItem.length <= 1) {
       return beliItem.map((item) => formatRupiah(item.totalHarga));
-    } else {
-      return beliItem.reduce((acc, curr) =>
-        formatRupiah(acc.totalHarga + curr.totalHarga, 0)
-      );
+    } else if (beliItem.length > 1) {
+      const totalAmount = beliItem.reduce((acc, curr) => {
+        return acc + curr.totalHarga;
+      }, 0);
+      return formatRupiah(totalAmount);
     }
   };
+  // router
   const router = useRouter();
+  // make state un
+  const [resetState, setResetState] = React.useState(false);
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">

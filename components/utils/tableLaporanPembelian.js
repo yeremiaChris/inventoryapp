@@ -9,7 +9,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { useSelector } from "react-redux";
 import { formatRupiah } from "./utils";
-
+import DetailLaporanDialog from "./detailLaporanDialog";
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -24,6 +24,7 @@ const StyledTableRow = withStyles((theme) => ({
   root: {
     "&:nth-of-type(odd)": {
       backgroundColor: theme.palette.action.hover,
+      cursor: "pointer",
     },
   },
 }))(TableRow);
@@ -43,6 +44,14 @@ const useStyles = makeStyles({
 export default function formBeliItem() {
   const classes = useStyles();
   const laporan = useSelector((state) => state.daftarItem.laporanPembelian);
+  // handleDialogDetail
+  const [open, setOpen] = React.useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">
@@ -58,7 +67,7 @@ export default function formBeliItem() {
           {laporan &&
             laporan.map((item) => {
               return (
-                <StyledTableRow key={item.key}>
+                <StyledTableRow onClick={handleClickOpen} hover key={item.key}>
                   <StyledTableCell component="th" scope="row">
                     {item.tanggal}
                   </StyledTableCell>
@@ -76,6 +85,7 @@ export default function formBeliItem() {
             })}
         </TableBody>
       </Table>
+      <DetailLaporanDialog open={open} handleClose={handleClose} />
     </TableContainer>
   );
 }

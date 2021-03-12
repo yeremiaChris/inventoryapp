@@ -5,6 +5,7 @@ import {
   BELI_ITEM,
   RESET_ITEM,
   LAPORAN_PEMBELIAN,
+  PENGELOLAAN_STOK_BELI,
 } from "./actionType";
 const initialState = {
   daftarItem: [
@@ -117,6 +118,21 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         laporanPembelian: [...state.laporanPembelian, action.laporan],
+      };
+      break;
+    case PENGELOLAAN_STOK_BELI:
+      return {
+        ...state,
+        daftarItem: [
+          ...state.daftarItem.map((item) =>
+            item.key === action.key
+              ? {
+                  ...item,
+                  stok: action.totalStok,
+                }
+              : item
+          ),
+        ],
       };
       break;
     default:

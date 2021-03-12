@@ -5,6 +5,7 @@ import {
   BELI_ITEM,
   RESET_ITEM,
   LAPORAN_PEMBELIAN,
+  PENGELOLAAN_STOK_BELI,
 } from "./actionType";
 import swal from "sweetalert";
 // crud item
@@ -55,7 +56,7 @@ export const beliItem = (data, detail, handleClose) => {
       hargaSatuan: detail.hargaSatuan,
       totalHarga: data.jumlahBeli * detail.hargaSatuan,
       tanggal: new Date().toDateString(),
-      key: Math.random().toString(),
+      key: detail.key,
     };
     dispatch({ type: BELI_ITEM, data: obj });
     handleClose();
@@ -68,11 +69,13 @@ export const resetItem = () => {
 };
 
 // laporan
-export const laporanPembelian = (laporan) => {
+export const laporanPembelian = (laporan, reset) => {
   const laporanTotalHargaBeli =
     laporan.length <= 1
       ? laporan.map((item) => item.totalHarga)
-      : laporan.reduce((acc, curr) => acc.totalHarga + curr.totalHarga, 0);
+      : laporan.reduce((acc, curr) => {
+          return acc + curr.totalHarga;
+        }, 0);
   const obj = {
     tanggal: new Date().toDateString(),
     waktu: new Date().toTimeString(),
@@ -82,6 +85,15 @@ export const laporanPembelian = (laporan) => {
     key: Math.random().toString(),
   };
   return (dispatch) => {
+    laporan.forEach((element) => {
+      console.log(element.totalStok);
+      dispatch({
+        type: PENGELOLAAN_STOK_BELI,
+        key: element.key,
+        totalStok: element.totalStok,
+      });
+    });
     dispatch({ type: LAPORAN_PEMBELIAN, laporan: obj });
+    dispatch({ type: RESET_ITEM });
   };
 };
