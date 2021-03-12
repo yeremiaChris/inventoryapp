@@ -250,6 +250,7 @@ export default function FormDialog({
                               >
                                 <InputLabel id="demo-simple-select-label">
                                   {item.nama}
+                                </InputLabel>
                                 <Select
                                   labelId="demo-simple-select-label"
                                   value={values.namaBarang}
@@ -307,8 +308,8 @@ export default function FormDialog({
                                       totalStok:
                                         detailInfoBeli.stokAwal === 0
                                           ? parseInt(e.target.value)
-                                          : detailInfoBeli.stokAwal *
-                                            e.target.value,
+                                          : parseInt(detailInfoBeli.stokAwal) +
+                                            parseInt(e.target.value),
                                     }));
                                     setFieldValue("jumlahBeli", e.target.value);
                                   }

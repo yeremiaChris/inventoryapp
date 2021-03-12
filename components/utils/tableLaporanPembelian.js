@@ -46,8 +46,10 @@ export default function formBeliItem() {
   const laporan = useSelector((state) => state.daftarItem.laporanPembelian);
   // handleDialogDetail
   const [open, setOpen] = React.useState(false);
-  const handleClickOpen = () => {
+  const [detailLaporan, setDetailLaporan] = React.useState();
+  const handleClickOpen = (data, total) => {
     setOpen(true);
+    setDetailLaporan({ data: data, totalHargaBeli: total });
   };
   const handleClose = () => {
     setOpen(false);
@@ -67,7 +69,13 @@ export default function formBeliItem() {
           {laporan &&
             laporan.map((item) => {
               return (
-                <StyledTableRow onClick={handleClickOpen} hover key={item.key}>
+                <StyledTableRow
+                  onClick={() =>
+                    handleClickOpen(item.item, item.totalHargaBeli)
+                  }
+                  hover
+                  key={item.key}
+                >
                   <StyledTableCell component="th" scope="row">
                     {item.tanggal}
                   </StyledTableCell>
@@ -85,7 +93,11 @@ export default function formBeliItem() {
             })}
         </TableBody>
       </Table>
-      <DetailLaporanDialog open={open} handleClose={handleClose} />
+      <DetailLaporanDialog
+        open={open}
+        handleClose={handleClose}
+        detailLaporan={detailLaporan}
+      />
     </TableContainer>
   );
 }

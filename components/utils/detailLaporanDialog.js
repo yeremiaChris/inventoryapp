@@ -8,7 +8,8 @@ import MuiDialogActions from "@material-ui/core/DialogActions";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
-
+import TableDetailLaporanBeli from "./tableDetailLaporanBeli";
+import { formatRupiah } from "./utils";
 const styles = (theme) => ({
   root: {
     margin: 0,
@@ -53,7 +54,11 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
-export default function DetailLaporanDialog({ open, handleClose }) {
+export default function DetailLaporanDialog({
+  open,
+  handleClose,
+  detailLaporan,
+}) {
   return (
     <div>
       <Dialog
@@ -62,30 +67,29 @@ export default function DetailLaporanDialog({ open, handleClose }) {
         open={open}
       >
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Modal title
+          <h3 style={{ margin: 0, padding: 0 }}> Detail item beli</h3>
+          <div style={{ display: "flex" }}>
+            <div style={{ marginRight: 15 }}>
+              <h5 style={{ margin: 0, padding: 0 }}> Total item</h5>
+              <h5 style={{ margin: 0, padding: 0 }}> Total Harga</h5>
+            </div>
+            <div>
+              <h5 style={{ margin: 0, padding: 0 }}>
+                {detailLaporan === undefined ? null : detailLaporan.data.length}
+              </h5>
+              <h5 style={{ margin: 0, padding: 0 }}>
+                {detailLaporan === undefined
+                  ? null
+                  : formatRupiah(detailLaporan.totalHargaBeli)}
+              </h5>
+            </div>
+          </div>
         </DialogTitle>
         <DialogContent dividers>
-          <Typography gutterBottom>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta
-            ac consectetur ac, vestibulum at eros.
-          </Typography>
-          <Typography gutterBottom>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-            Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
-            auctor.
-          </Typography>
-          <Typography gutterBottom>
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
-            cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
-            dui. Donec ullamcorper nulla non metus auctor fringilla.
-          </Typography>
+          <TableDetailLaporanBeli
+            detailLaporan={detailLaporan === undefined ? null : detailLaporan}
+          />
         </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleClose} color="primary">
-            Save changes
-          </Button>
-        </DialogActions>
       </Dialog>
     </div>
   );
