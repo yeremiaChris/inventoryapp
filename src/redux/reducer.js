@@ -6,7 +6,9 @@ import {
   RESET_ITEM,
   LAPORAN_PEMBELIAN,
   PENGELOLAAN_STOK_BELI,
+  PENGELOLAAN_STOK_JUAL,
   JUAL_ITEM,
+  LAPORAN_PENJUALAN,
 } from "./actionType";
 const initialState = {
   daftarItem: [
@@ -68,6 +70,7 @@ const initialState = {
   daftarBeliItem: [],
   daftarJualItem: [],
   laporanPembelian: [],
+  laporanPenjualan: [],
 };
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -130,9 +133,28 @@ export const reducer = (state = initialState, action) => {
       };
       break;
     case JUAL_ITEM:
+      const checkObjectJual = state.daftarJualItem.some(
+        (item) => item.key === action.data.key
+      );
       return {
         ...state,
-        daftarJualItem: [action.data, ...state.daftarJualItem],
+        daftarJualItem: checkObjectJual
+          ? [
+              ...state.daftarJualItem.map((item) =>
+                item.key === action.data.key
+                  ? {
+                      ...item,
+                      stokAwal: action.data.stokAwal,
+                      jumlahJual: action.data.jumlahJual,
+                      totalStok: action.data.totalStok,
+                      hargaSatuan: action.data.hargaSatuan,
+                      totalHarga: action.data.totalHarga,
+                      tanggal: action.data.tanggal,
+                    }
+                  : item
+              ),
+            ]
+          : [action.data, ...state.daftarJualItem],
       };
       break;
     case RESET_ITEM:
@@ -148,7 +170,28 @@ export const reducer = (state = initialState, action) => {
         laporanPembelian: [...state.laporanPembelian, action.laporan],
       };
       break;
+    case LAPORAN_PENJUALAN:
+      return {
+        ...state,
+        laporanPenjualan: [...state.laporanPenjualan, action.laporan],
+      };
+      break;
     case PENGELOLAAN_STOK_BELI:
+      return {
+        ...state,
+        daftarItem: [
+          ...state.daftarItem.map((item) =>
+            item.key === action.key
+              ? {
+                  ...item,
+                  stok: action.totalStok,
+                }
+              : item
+          ),
+        ],
+      };
+      break;
+    case PENGELOLAAN_STOK_JUAL:
       return {
         ...state,
         daftarItem: [

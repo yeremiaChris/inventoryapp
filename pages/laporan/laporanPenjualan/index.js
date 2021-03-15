@@ -4,11 +4,9 @@ import { Grid } from "@material-ui/core";
 import TopBar from "../../../components/utils/topBar";
 import Sidebar from "../../../components/utils/Sidebar";
 import Footer from "../../../components/utils/footer";
-import LaporanPembelian from "../../../components/laporan";
-import { useSelector } from "react-redux";
+import LaporanPenjualan from "../../../components/laporan";
 
 function index() {
-  const laporan = useSelector((state) => state.daftarItem.laporanPembelian);
   return (
     <>
       <TopBar />
@@ -25,7 +23,7 @@ function index() {
           <Sidebar />
         </Grid>
         <Grid item lg={10}>
-          <LaporanPembelian title="Pembelian" laporan={laporan} />
+          <LaporanPenjualan title="Penjualan" />
         </Grid>
       </Grid>
       <Grid container className="container" style={{ width: 1200 }}>

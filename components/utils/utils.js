@@ -49,6 +49,11 @@ export const routePath = [
     key: "4",
     path: "/laporan/laporanPembelian",
   },
+  {
+    nama: "Laporan Penjualan",
+    key: "6",
+    path: "/laporan/laporanPenjualan",
+  },
 ];
 
 // ini state dashboard untuk box dashboard

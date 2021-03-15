@@ -12,7 +12,11 @@ import { formatRupiah, before, next } from "./utils";
 import Button from "@material-ui/core/Button";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
-import { resetItem, laporanPembelian } from "../../src/redux/actions";
+import {
+  resetItem,
+  laporanPembelian,
+  laporanPenjualan,
+} from "../../src/redux/actions";
 import { useRouter } from "next/router";
 import IconButton from "@material-ui/core/IconButton";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
@@ -291,8 +295,8 @@ export default function formBeliItem() {
           </Button>
           <Button
             onClick={() => {
-              dispatch(laporanPembelian(jualItem));
-              router.push("/laporan/laporanPembelian");
+              dispatch(laporanPenjualan(jualItem));
+              router.push("/laporan/laporanPenjualan");
             }}
             style={{ marginLeft: 10 }}
             variant="contained"

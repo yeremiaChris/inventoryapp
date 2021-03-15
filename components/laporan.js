@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid, makeStyles } from "@material-ui/core";
-import TableLaporanPembelian from "./utils/tableLaporanPembelian";
+import TableLaporan from "./utils/tableLaporan";
 import ButtonSortDaftarBrg from "./utils/buttonSort";
 
 const useStyles = makeStyles((theme) => ({
@@ -27,16 +27,16 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 10,
   },
 }));
-function laporanPembelian() {
+function laporanPembelian({ title }) {
   const classes = useStyles();
   return (
     <Grid container className={classes.container}>
       <Grid item lg={12} className={classes.wrapper}>
-        <h1 className={classes.header}>Laporan Pembelian Barang</h1>
+        <h1 className={classes.header}>Laporan {title} Barang</h1>
       </Grid>
       <Grid item lg={12}>
         <ButtonSortDaftarBrg />
-        <TableLaporanPembelian />
+        <TableLaporan  />
       </Grid>
     </Grid>
   );

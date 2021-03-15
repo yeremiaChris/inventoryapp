@@ -7,6 +7,8 @@ import {
   RESET_ITEM,
   LAPORAN_PEMBELIAN,
   PENGELOLAAN_STOK_BELI,
+  PENGELOLAAN_STOK_JUAL,
+  LAPORAN_PENJUALAN,
 } from "./actionType";
 import swal from "sweetalert";
 // crud item
@@ -73,7 +75,7 @@ export const resetItem = () => {
 export const jualItem = (data, detail, handleClose) => {
   return (dispatch) => {
     const obj = {
-      namaBarang: detail.nama,
+      namaBarang: detail.namaBarang,
       satuan: detail.satuan,
       stokAwal: detail.stokAwal,
       totalStok: detail.totalStok,
@@ -81,7 +83,7 @@ export const jualItem = (data, detail, handleClose) => {
       hargaSatuan: parseInt(detail.hargaSatuan),
       totalHarga: parseInt(data.jumlahJual) * parseInt(detail.hargaSatuan),
       tanggal: new Date().toDateString(),
-      key: detail.key,
+      key: data.namaBarang,
     };
     dispatch({ type: JUAL_ITEM, data: obj });
     handleClose();
@@ -113,6 +115,36 @@ export const laporanPembelian = (laporan) => {
       });
     });
     dispatch({ type: LAPORAN_PEMBELIAN, laporan: obj });
+    dispatch({ type: RESET_ITEM });
+    swal("Berhasil beli item !", {
+      icon: "success",
+    });
+  };
+};
+export const laporanPenjualan = (laporan) => {
+  const laporanTotalHargaBeli =
+    laporan.length <= 1
+      ? laporan.map((item) => item.totalHarga)
+      : laporan.reduce((acc, curr) => {
+          return acc + curr.totalHarga;
+        }, 0);
+  const obj = {
+    tanggal: new Date().toDateString(),
+    waktu: new Date().toTimeString(),
+    jumlahItemJual: laporan.length,
+    totalHargaJual: laporanTotalHargaBeli,
+    item: laporan,
+    key: Math.random().toString(),
+  };
+  return (dispatch) => {
+    laporan.forEach((element) => {
+      dispatch({
+        type: PENGELOLAAN_STOK_JUAL,
+        key: element.key,
+        totalStok: element.totalStok,
+      });
+    });
+    dispatch({ type: LAPORAN_PENJUALAN, laporan: obj });
     dispatch({ type: RESET_ITEM });
     swal("Berhasil beli item !", {
       icon: "success",

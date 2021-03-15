@@ -1,8 +1,10 @@
 import React from "react";
 import { Grid, makeStyles } from "@material-ui/core";
 import FormBeliItem from "./utils/formBeliItem";
-import DialogFormBeliBrg from "./utils/dialogFormBeliBrg";
-import { fieldListDua } from "./utils/utils";
+import DialogFormBeliBrg from "./utils/dialogFormBeliJualBrg";
+import { fieldListDua, beliSchema } from "./utils/utils";
+import { useDispatch, useSelector } from "react-redux";
+
 const useStyles = makeStyles((theme) => ({
   container: {
     marginLeft: 10,
@@ -38,6 +40,52 @@ function beliItem() {
     setOpen(false);
   };
   // akhir state menampilkan dialog
+
+  // schema
+  const schema = {
+    namaBarang: "",
+    jumlahBeli: 0,
+  };
+
+  // state beli dialog
+  const pilihBarang = useSelector((state) => state.daftarItem.daftarItem);
+
+  // state untuk keterangan beli
+  const [keteranganBeli, setKeteranganBeli] = React.useState({
+    hargaSatuan: 0,
+    totalHarga: 0,
+    stokAwal: 0,
+    namaBarang: "",
+    satuan: "",
+    totalStok: 0,
+  });
+  // function mendapatkan keterangan
+  const keteranganBeliFunctionSelect = (e, values) => {
+    pilihBarang.map((item) =>
+      item.key === e.target.value
+        ? setKeteranganBeli({
+            hargaSatuan: item.hargaPerSatuan,
+            totalHarga:
+              values.jumlahBeli === 0
+                ? 0
+                : values.jumlahBeli * item.hargaPerSatuan,
+            stokAwal: item.stok,
+            namaBarang: item.nama,
+            satuan: item.satuan,
+            hargaSatuan: item.hargaPerSatuan,
+            totalStok: item.stok === 0 ? 0 : item.stok + values.jumlahBeli,
+          })
+        : item
+    );
+  };
+  const keteranganBeliTextField = (e) => {
+    setKeteranganBeli((prevState) => ({
+      ...prevState,
+      totalStok: keteranganBeli.stokAwal + parseInt(e.target.value),
+      totalHarga: keteranganBeli.hargaSatuan * parseInt(e.target.value),
+    }));
+  };
+
   return (
     <Grid container className={classes.container}>
       <Grid item lg={12} className={classes.wrapper}>
@@ -48,6 +96,15 @@ function beliItem() {
           open={open}
           handleClickOpen={handleClickOpen}
           handleClose={handleClose}
+          title="beli"
+          inputField={fieldListDua}
+          initialValue={schema}
+          pilihBarang={pilihBarang}
+          keterangan={keteranganBeli}
+          keteranganFunctionSelect={keteranganBeliFunctionSelect}
+          keteranganTextField={keteranganBeliTextField}
+          setKeterangan={setKeteranganBeli}
+          schema={beliSchema}
         />
         <FormBeliItem />
       </Grid>

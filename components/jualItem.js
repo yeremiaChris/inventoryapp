@@ -1,8 +1,10 @@
 import React from "react";
 import { Grid, makeStyles } from "@material-ui/core";
 import FormBeliItem from "./utils/formBeliItem";
-import DialogFormTambahBrg from "./utils/dialogFormTambahBrg";
-import { fieldListTiga } from "./utils/utils";
+import { fieldListTiga, jualSchema } from "./utils/utils";
+import DialogFormJualBrg from "./utils/dialogFormBeliJualBrg";
+import { useDispatch, useSelector } from "react-redux";
+
 const useStyles = makeStyles((theme) => ({
   container: {
     marginLeft: 10,
@@ -28,14 +30,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 function jualItem() {
-  // variabel untuk error ketika form jual tidak ada stok
-  const [buttonStokHabisDisable, setButtonStokHabisDisable] = React.useState(
-    false
-  );
-  // error jumlah jual lebih besar dari stok
-  const [error, setError] = React.useState("");
   const classes = useStyles();
   // state menampilkan dialog
+  const [
+    disabledButtonInputJumlahJual,
+    setdisabledButtonInputJumlahJual,
+  ] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
     setOpen(true);
@@ -43,26 +43,92 @@ function jualItem() {
   const handleClose = () => {
     setOpen(false);
     setError("");
-    setButtonStokHabisDisable(false);
+    setdisabledButtonInputJumlahJual(false);
   };
 
   // akhir state menampilkan dialog
+
+  // schema
+  const schema = {
+    namaBarang: "",
+    jumlahJual: 0,
+  };
+  // state jual dialog
+  const pilihBarang = useSelector((state) => state.daftarItem.daftarItem);
+
+  // state untuk keterangan jual
+  const [keteranganJual, setKeteranganJual] = React.useState({
+    hargaSatuan: 0,
+    totalHarga: 0,
+    stokAwal: 0,
+    namaBarang: "",
+    satuan: "",
+    totalStok: 0,
+  });
+  // function mendapatkan keterangan
+  const [error, setError] = React.useState("");
+  const selectFunctionKeteranganJual = (item, values) => {
+    setKeteranganJual({
+      hargaSatuan: item.hargaPerSatuan,
+      totalHarga:
+        values.jumlahJual === 0 ? 0 : values.jumlahJual * item.hargaPerSatuan,
+      stokAwal: item.stok,
+      namaBarang: item.nama,
+      satuan: item.satuan,
+      hargaSatuan: item.hargaPerSatuan,
+      totalStok: item.stok === 0 ? 0 : item.stok + values.jumlahJual,
+    });
+    if (item.stok === 0) {
+      setError("Stok tidak ada");
+      setdisabledButtonInputJumlahJual(true);
+    } else {
+      setError("");
+      setdisabledButtonInputJumlahJual(false);
+    }
+  };
+  const keteranganJualFunctionSelect = (e, values) => {
+    pilihBarang.map((item) =>
+      item.key === e.target.value
+        ? selectFunctionKeteranganJual(item, values)
+        : item
+    );
+  };
+  // const error textfield kalo jumlah beli terlalu besar
+  const keteranganJualTextField = (e, setFieldValue) => {
+    setKeteranganJual((prevState) => ({
+      ...prevState,
+      totalStok: keteranganJual.stokAwal - parseInt(e.target.value),
+      totalHarga: keteranganJual.hargaSatuan * parseInt(e.target.value),
+    }));
+    if (e.target.value > keteranganJual.stokAwal) {
+      setFieldValue("jumlahJual", keteranganJual.stokAwal);
+      setError("jumlah jual tidak boleh lebih dari stok awal");
+    } else {
+      setError("");
+    }
+  };
+
   return (
     <Grid container className={classes.container}>
       <Grid item lg={12} className={classes.wrapper}>
         <h1 className={classes.header}>Form Penjualan Barang</h1>
       </Grid>
       <Grid item lg={12}>
-        <DialogFormTambahBrg
+        <DialogFormJualBrg
           open={open}
           handleClickOpen={handleClickOpen}
           handleClose={handleClose}
-          title="Pilih Barang Jual"
-          fieldListDua={fieldListTiga}
-          buttonStokHabisDisable={buttonStokHabisDisable}
-          setButtonStokHabisDisable={setButtonStokHabisDisable}
+          title="jual"
+          inputField={fieldListTiga}
+          initialValue={schema}
+          keterangan={keteranganJual}
+          pilihBarang={pilihBarang}
+          keteranganFunctionSelect={keteranganJualFunctionSelect}
+          keteranganTextField={keteranganJualTextField}
+          setKeterangan={setKeteranganJual}
+          schema={jualSchema}
           error={error}
-          setError={setError}
+          disabledButtonInputJumlahJual={disabledButtonInputJumlahJual}
         />
         <FormBeliItem />
       </Grid>

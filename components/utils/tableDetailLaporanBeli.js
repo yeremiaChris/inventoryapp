@@ -11,6 +11,7 @@ import IconButton from "@material-ui/core/IconButton";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import { formatRupiah, before, next } from "./utils";
+import { useRouter } from "next/router";
 const useStyles = makeStyles((theme) => ({
   pagination: {
     padding: 20,
@@ -32,6 +33,7 @@ export default function TableDetailLaporanBeli({ detailLaporan }) {
     detailLaporan === undefined
       ? null
       : detailLaporan.data.slice(beforePage, nextPage);
+  const router = useRouter();
   return (
     <TableContainer component={Paper}>
       <Table aria-label="simple table">
@@ -40,7 +42,12 @@ export default function TableDetailLaporanBeli({ detailLaporan }) {
             <TableCell>Nama barang</TableCell>
             <TableCell>Satuan</TableCell>
             <TableCell>Persediaan awal</TableCell>
-            <TableCell>Jumlah Beli</TableCell>
+            <TableCell>
+              Jumlah{" "}
+              {router.pathname === "/laporan/laporanPembelian"
+                ? "beli"
+                : "jual"}
+            </TableCell>
             <TableCell>Total persediaan</TableCell>
             <TableCell>Harga satuan</TableCell>
             <TableCell>Total harga</TableCell>
@@ -55,7 +62,11 @@ export default function TableDetailLaporanBeli({ detailLaporan }) {
                 </TableCell>
                 <TableCell>{row.satuan}</TableCell>
                 <TableCell>{row.stokAwal}</TableCell>
-                <TableCell>{row.jumlahBeli}</TableCell>
+                <TableCell>
+                  {router.pathname === "laporan/laporanPembelian"
+                    ? row.jumlahBeli
+                    : row.jumlahJual}
+                </TableCell>
                 <TableCell>{row.totalStok}</TableCell>
                 <TableCell>{formatRupiah(row.hargaSatuan)}</TableCell>
                 <TableCell>{formatRupiah(row.totalHarga)}</TableCell>
