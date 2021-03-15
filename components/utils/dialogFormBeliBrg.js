@@ -47,9 +47,6 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
     color: "red",
   },
-  wrapperKeterangan: {
-    display: "flex",
-  },
 }));
 export default function FormDialog({
   open,
@@ -69,7 +66,6 @@ export default function FormDialog({
     namaBarang: "",
     satuan: "",
     totalStok: 0,
-    display: false,
   });
   // function mendapatkan keterangan
   const keteranganBeliFunctionSelect = (e, values) => {
@@ -86,14 +82,9 @@ export default function FormDialog({
             satuan: item.satuan,
             hargaSatuan: item.hargaPerSatuan,
             totalStok: item.stok === 0 ? 0 : item.stok + values.jumlahBeli,
-            display: true,
           })
         : item
     );
-  };
-  // reset keterangan
-  const resetKeterangan = () => {
-    setKeteranganBeli({ hargaSatuan: 0, totalHarga: 0, display: false });
   };
   const keteranganBeliTextField = (e) => {
     setKeteranganBeli((prevState) => ({
@@ -122,7 +113,14 @@ export default function FormDialog({
         open={open}
         onClose={() => {
           handleClose();
-          resetKeterangan();
+          setKeteranganBeli({
+            hargaSatuan: 0,
+            totalHarga: 0,
+            stokAwal: 0,
+            namaBarang: "",
+            satuan: "",
+            totalStok: 0,
+          });
         }}
         aria-labelledby="form-dialog-title"
       >
@@ -211,17 +209,28 @@ export default function FormDialog({
                         </div>
                       )
                     )}
-                    <div className={classes.wrapperKeterangan}>
+                    <div
+                      style={{
+                        display:
+                          keteranganBeli.namaBarang.length === 0
+                            ? "none"
+                            : "flex",
+                      }}
+                    >
                       <div style={{ marginRight: 20 }}>
                         <strong>
-                          <p style={{ margin: 0 }}>Harga satuan</p>
+                          <p style={{ margin: 0 }}>Stok awal</p>
+                          <p style={{ margin: 0, marginTop: 10 }}>
+                            Harga satuan
+                          </p>
                           <p style={{ margin: 0, marginTop: 10 }}>
                             Total harga
                           </p>
                         </strong>
                       </div>
                       <div>
-                        <p style={{ margin: 0 }}>
+                        <p style={{ margin: 0 }}>{keteranganBeli.stokAwal}</p>
+                        <p style={{ margin: 0, marginTop: 10 }}>
                           {formatRupiah(keteranganBeli.hargaSatuan)}
                         </p>
                         <p style={{ margin: 0, marginTop: 10 }}>
@@ -233,15 +242,22 @@ export default function FormDialog({
                   <DialogActions>
                     <Button
                       onClick={() => {
-                        resetKeterangan();
                         handleClose();
+                        setKeteranganBeli({
+                          hargaSatuan: 0,
+                          totalHarga: 0,
+                          stokAwal: 0,
+                          namaBarang: "",
+                          satuan: "",
+                          totalStok: 0,
+                        });
                       }}
                       color="primary"
                     >
                       Batal
                     </Button>
                     <Button type="submit" color="primary">
-                      Beli
+                      Masukkan
                     </Button>
                   </DialogActions>
                 </form>

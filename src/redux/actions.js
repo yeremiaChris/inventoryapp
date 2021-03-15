@@ -89,7 +89,7 @@ export const jualItem = (data, detail, handleClose) => {
 };
 
 // laporan
-export const laporanPembelian = (laporan, reset) => {
+export const laporanPembelian = (laporan) => {
   const laporanTotalHargaBeli =
     laporan.length <= 1
       ? laporan.map((item) => item.totalHarga)
@@ -106,7 +106,6 @@ export const laporanPembelian = (laporan, reset) => {
   };
   return (dispatch) => {
     laporan.forEach((element) => {
-      console.log(element.totalStok);
       dispatch({
         type: PENGELOLAAN_STOK_BELI,
         key: element.key,
