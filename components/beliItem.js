@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, makeStyles } from "@material-ui/core";
 import FormBeliItem from "./utils/formBeliItem";
-import DialogFormTambahBrg from "./utils/dialogFormTambahBrg";
+import DialogFormBeliBrg from "./utils/dialogFormBeliBrg";
 import { fieldListDua } from "./utils/utils";
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -44,12 +44,10 @@ function beliItem() {
         <h1 className={classes.header}>Form Pembelian Barang</h1>
       </Grid>
       <Grid item lg={12}>
-        <DialogFormTambahBrg
+        <DialogFormBeliBrg
           open={open}
           handleClickOpen={handleClickOpen}
           handleClose={handleClose}
-          fieldListDua={fieldListDua}
-          title="Pilih Barang Beli"
         />
         <FormBeliItem />
       </Grid>

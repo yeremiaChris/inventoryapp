@@ -6,6 +6,7 @@ import {
   RESET_ITEM,
   LAPORAN_PEMBELIAN,
   PENGELOLAAN_STOK_BELI,
+  JUAL_ITEM,
 } from "./actionType";
 const initialState = {
   daftarItem: [
@@ -65,6 +66,7 @@ const initialState = {
     },
   ],
   daftarBeliItem: [],
+  daftarJualItem: [],
   laporanPembelian: [],
 };
 export const reducer = (state = initialState, action) => {
@@ -103,15 +105,41 @@ export const reducer = (state = initialState, action) => {
       };
       break;
     case BELI_ITEM:
+      const checkObject = state.daftarBeliItem.some(
+        (item) => item.key === action.data.key
+      );
       return {
         ...state,
-        daftarBeliItem: [action.data, ...state.daftarBeliItem],
+        daftarBeliItem: checkObject
+          ? [
+              ...state.daftarBeliItem.map((item) =>
+                item.key === action.data.key
+                  ? {
+                      ...item,
+                      stokAwal: action.data.stokAwal,
+                      jumlahBeli: action.data.jumlahBeli,
+                      totalStok: action.data.totalStok,
+                      hargaSatuan: action.data.hargaSatuan,
+                      totalHarga: action.data.totalHarga,
+                      tanggal: action.data.tanggal,
+                    }
+                  : item
+              ),
+            ]
+          : [action.data, ...state.daftarBeliItem],
+      };
+      break;
+    case JUAL_ITEM:
+      return {
+        ...state,
+        daftarJualItem: [action.data, ...state.daftarJualItem],
       };
       break;
     case RESET_ITEM:
       return {
         ...state,
         daftarBeliItem: [],
+        daftarJualItem: [],
       };
       break;
     case LAPORAN_PEMBELIAN:

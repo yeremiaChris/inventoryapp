@@ -56,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
 export default function formBeliItem() {
   const classes = useStyles();
   const beliItem = useSelector((state) => state.daftarItem.daftarBeliItem);
+  const jualItem = useSelector((state) => state.daftarItem.daftarJualItem);
   const dispatch = useDispatch();
   // total
   const total = () => {
@@ -76,7 +77,10 @@ export default function formBeliItem() {
   // pagination
   const [nextPage, setNextPage] = React.useState(3);
   const [beforePage, setBeforePage] = React.useState(0);
+  const [nextPageJual, setNextPageJual] = React.useState(3);
+  const [beforePageJual, setBeforePageJual] = React.useState(0);
   const currentPage = beliItem.slice(beforePage, nextPage);
+  const currentPageJual = jualItem.slice(beforePageJual, nextPageJual);
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">
@@ -85,107 +89,220 @@ export default function formBeliItem() {
             <StyledTableCell>Nama barang</StyledTableCell>
             <StyledTableCell align="right">Satuan</StyledTableCell>
             <StyledTableCell align="right">Persediaan awal</StyledTableCell>
-            <StyledTableCell align="right">Jumlah beli</StyledTableCell>
+            <StyledTableCell align="right">
+              Jumlah {router.pathname === "/beliBarang" ? "beli" : "jual"}
+            </StyledTableCell>
             <StyledTableCell align="right">Total Persediaan</StyledTableCell>
             <StyledTableCell align="right">Harga satuan</StyledTableCell>
             <StyledTableCell align="right">Total harga</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {currentPage &&
-            currentPage.map((row, index) => (
-              <StyledTableRow key={index}>
-                <StyledTableCell component="th" scope="row">
-                  {row.namaBarang}
-                </StyledTableCell>
-                <StyledTableCell align="right">{row.satuan}</StyledTableCell>
-                <StyledTableCell align="right">{row.stokAwal}</StyledTableCell>
-                <StyledTableCell align="right">
-                  {row.jumlahBeli}
-                </StyledTableCell>
-                <StyledTableCell align="right">{row.totalStok}</StyledTableCell>
-                <StyledTableCell align="right">
-                  {formatRupiah(row.hargaSatuan)}
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  {formatRupiah(row.totalHarga)}
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
+          {router.pathname === "/beliBarang"
+            ? currentPage &&
+              currentPage.map((row) => (
+                <StyledTableRow key={row.key}>
+                  <StyledTableCell component="th" scope="row">
+                    {row.namaBarang}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">{row.satuan}</StyledTableCell>
+                  <StyledTableCell align="right">
+                    {row.stokAwal}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {row.jumlahBeli}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {row.totalStok}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {formatRupiah(row.hargaSatuan)}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {formatRupiah(row.totalHarga)}
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))
+            : currentPageJual &&
+              currentPageJual.map((row) => (
+                <StyledTableRow key={row.key}>
+                  <StyledTableCell component="th" scope="row">
+                    {row.namaBarang}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">{row.satuan}</StyledTableCell>
+                  <StyledTableCell align="right">
+                    {row.stokAwal}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {row.jumlahJual}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {row.totalStok}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {formatRupiah(row.hargaSatuan)}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {formatRupiah(row.totalHarga)}
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
         </TableBody>
       </Table>
-      <div
-        style={{
-          display: beliItem.length <= 3 ? "none" : "flex",
-          fontFamily: "Arial",
-        }}
-        className={classes.pagination}
-      >
-        <IconButton
-          disabled={beforePage <= 0 ? true : false}
-          onClick={() =>
-            before(beforePage, setBeforePage, setNextPage, nextPage)
-          }
-          size="small"
-          edge="start"
-          className={classes.menuButton}
-          color="inherit"
-          aria-label="menu"
-        >
-          <ArrowBackIosIcon />
-        </IconButton>
-        <IconButton
-          disabled={nextPage >= beliItem.length ? true : false}
-          onClick={() =>
-            next(nextPage, beliItem, setBeforePage, setNextPage, beforePage)
-          }
-          size="small"
-          edge="start"
-          className={classes.menuButton}
-          color="inherit"
-          aria-label="menu"
-        >
-          <ArrowForwardIosIcon />
-        </IconButton>
-      </div>
-      <div
-        style={{
-          display: beliItem.length === 0 ? "none" : "flex",
-          fontFamily: "Arial",
-        }}
-        className={classes.containerButton}
-      >
-        <h2 style={{ margin: 0 }}>Total</h2>
-        <h2 style={{ margin: 0, marginLeft: 10 }}>{total()}</h2>
-      </div>
-      <div
-        style={{ display: beliItem.length === 0 ? "none" : "flex" }}
-        className={classes.containerButton}
-      >
-        <Button
-          onClick={() => dispatch(resetItem())}
+      {router.pathname === "/beliBarang" ? (
+        <div
           style={{
-            backgroundColor: "maroon",
-            color: "white",
+            display: beliItem.length <= 3 ? "none" : "flex",
+            fontFamily: "Arial",
           }}
-          variant="contained"
-          startIcon={<RotateLeftIcon />}
+          className={classes.pagination}
         >
-          Reset
-        </Button>
-        <Button
-          onClick={() => {
-            dispatch(laporanPembelian(beliItem));
-            router.push("/laporan/laporanPembelian");
+          <IconButton
+            disabled={beforePage <= 0 ? true : false}
+            onClick={() =>
+              before(beforePage, setBeforePage, setNextPage, nextPage)
+            }
+            size="small"
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="menu"
+          >
+            <ArrowBackIosIcon />
+          </IconButton>
+          <IconButton
+            disabled={nextPage >= beliItem.length ? true : false}
+            onClick={() =>
+              next(nextPage, beliItem, setBeforePage, setNextPage, beforePage)
+            }
+            size="small"
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="menu"
+          >
+            <ArrowForwardIosIcon />
+          </IconButton>
+        </div>
+      ) : (
+        <div
+          style={{
+            display: jualItem.length <= 3 ? "none" : "flex",
+            fontFamily: "Arial",
           }}
-          style={{ marginLeft: 10 }}
-          variant="contained"
-          color="secondary"
-          startIcon={<ShoppingCartIcon />}
+          className={classes.pagination}
         >
-          Beli
-        </Button>
-      </div>
+          <IconButton
+            disabled={beforePageJual <= 0 ? true : false}
+            onClick={() =>
+              before(
+                beforePageJual,
+                setBeforePageJual,
+                setNextPageJual,
+                nextPageJual
+              )
+            }
+            size="small"
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="menu"
+          >
+            <ArrowBackIosIcon />
+          </IconButton>
+          <IconButton
+            disabled={nextPageJual >= jualItem.length ? true : false}
+            onClick={() =>
+              next(
+                nextPageJual,
+                jualItem,
+                setBeforePageJual,
+                setNextPageJual,
+                beforePageJual
+              )
+            }
+            size="small"
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="menu"
+          >
+            <ArrowForwardIosIcon />
+          </IconButton>
+        </div>
+      )}
+
+      {router.pathname === "/beliBarang" ? (
+        <div
+          style={{
+            display: beliItem.length === 0 ? "none" : "flex",
+            fontFamily: "Arial",
+          }}
+          className={classes.containerButton}
+        >
+          <h2 style={{ margin: 0 }}>Total</h2>
+          <h2 style={{ margin: 0, marginLeft: 10 }}>{total()}</h2>
+        </div>
+      ) : null}
+      {router.pathname === "/beliBarang" ? (
+        <div
+          style={{ display: beliItem.length === 0 ? "none" : "flex" }}
+          className={classes.containerButton}
+        >
+          <Button
+            onClick={() => dispatch(resetItem())}
+            style={{
+              backgroundColor: "maroon",
+              color: "white",
+            }}
+            variant="contained"
+            startIcon={<RotateLeftIcon />}
+          >
+            Reset
+          </Button>
+          <Button
+            onClick={() => {
+              dispatch(laporanPembelian(beliItem));
+              router.push("/laporan/laporanPembelian");
+            }}
+            style={{ marginLeft: 10 }}
+            variant="contained"
+            color="secondary"
+            startIcon={<ShoppingCartIcon />}
+          >
+            Beli
+          </Button>
+        </div>
+      ) : (
+        <div
+          style={{ display: jualItem.length === 0 ? "none" : "flex" }}
+          className={classes.containerButton}
+        >
+          <Button
+            onClick={() => dispatch(resetItem())}
+            style={{
+              backgroundColor: "maroon",
+              color: "white",
+            }}
+            variant="contained"
+            startIcon={<RotateLeftIcon />}
+          >
+            Reset
+          </Button>
+          <Button
+            onClick={() => {
+              dispatch(laporanPembelian(jualItem));
+              router.push("/laporan/laporanPembelian");
+            }}
+            style={{ marginLeft: 10 }}
+            variant="contained"
+            color="secondary"
+            startIcon={<ShoppingCartIcon />}
+          >
+            Jual
+          </Button>
+        </div>
+      )}
     </TableContainer>
   );
 }

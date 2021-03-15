@@ -28,6 +28,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 function jualItem() {
+  // variabel untuk error ketika form jual tidak ada stok
+  const [buttonStokHabisDisable, setButtonStokHabisDisable] = React.useState(
+    false
+  );
+  // error jumlah jual lebih besar dari stok
+  const [error, setError] = React.useState("");
   const classes = useStyles();
   // state menampilkan dialog
   const [open, setOpen] = React.useState(false);
@@ -36,7 +42,10 @@ function jualItem() {
   };
   const handleClose = () => {
     setOpen(false);
+    setError("");
+    setButtonStokHabisDisable(false);
   };
+
   // akhir state menampilkan dialog
   return (
     <Grid container className={classes.container}>
@@ -50,6 +59,10 @@ function jualItem() {
           handleClose={handleClose}
           title="Pilih Barang Jual"
           fieldListDua={fieldListTiga}
+          buttonStokHabisDisable={buttonStokHabisDisable}
+          setButtonStokHabisDisable={setButtonStokHabisDisable}
+          error={error}
+          setError={setError}
         />
         <FormBeliItem />
       </Grid>

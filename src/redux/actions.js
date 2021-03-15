@@ -3,6 +3,7 @@ import {
   HAPUS_ITEM,
   EDIT_ITEM,
   BELI_ITEM,
+  JUAL_ITEM,
   RESET_ITEM,
   LAPORAN_PEMBELIAN,
   PENGELOLAAN_STOK_BELI,
@@ -48,15 +49,15 @@ export const editItem = (data) => {
 export const beliItem = (data, detail, handleClose) => {
   return (dispatch) => {
     const obj = {
-      namaBarang: detail.nama,
+      namaBarang: detail.namaBarang,
       satuan: detail.satuan,
       stokAwal: detail.stokAwal,
-      jumlahBeli: data.jumlahBeli,
+      jumlahBeli: parseInt(data.jumlahBeli),
       totalStok: detail.totalStok,
       hargaSatuan: detail.hargaSatuan,
-      totalHarga: data.jumlahBeli * detail.hargaSatuan,
+      totalHarga: parseInt(data.jumlahBeli) * detail.hargaSatuan,
       tanggal: new Date().toDateString(),
-      key: detail.key,
+      key: data.namaBarang,
     };
     dispatch({ type: BELI_ITEM, data: obj });
     handleClose();
@@ -65,6 +66,25 @@ export const beliItem = (data, detail, handleClose) => {
 export const resetItem = () => {
   return (dispatch) => {
     dispatch({ type: RESET_ITEM });
+  };
+};
+
+// penjualan
+export const jualItem = (data, detail, handleClose) => {
+  return (dispatch) => {
+    const obj = {
+      namaBarang: detail.nama,
+      satuan: detail.satuan,
+      stokAwal: detail.stokAwal,
+      totalStok: detail.totalStok,
+      jumlahJual: data.jumlahJual,
+      hargaSatuan: parseInt(detail.hargaSatuan),
+      totalHarga: parseInt(data.jumlahJual) * parseInt(detail.hargaSatuan),
+      tanggal: new Date().toDateString(),
+      key: detail.key,
+    };
+    dispatch({ type: JUAL_ITEM, data: obj });
+    handleClose();
   };
 };
 

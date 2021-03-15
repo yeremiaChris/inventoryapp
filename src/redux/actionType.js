@@ -9,3 +9,6 @@ export const RESET_ITEM = "resetItem";
 // laporan
 export const LAPORAN_PEMBELIAN = "laporanPembelian";
 export const PENGELOLAAN_STOK_BELI = "pengelolaanStokBeli";
+
+// penjualan
+export const JUAL_ITEM = "jualItem";

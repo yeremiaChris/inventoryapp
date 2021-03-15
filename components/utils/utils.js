@@ -173,7 +173,6 @@ export const fieldListDua = [
     nama: "Pilih barang",
     key: "2",
     select: true,
-    selection: select,
   },
   {
     nama: "Jumlah beli",
@@ -210,6 +209,14 @@ export const tambahSchema = Yup.object().shape({
 export const beliSchema = Yup.object().shape({
   namaBarang: Yup.string().required("Required"),
   jumlahBeli: Yup.number()
+    .min(1, "Tidak boleh nol")
+    .max(50, "Jumlah beli Tidak boleh lebih dari 50")
+    .required("Required"),
+});
+// validation schema beli barang
+export const jualSchema = Yup.object().shape({
+  namaBarang: Yup.string().required("Required"),
+  jumlahJual: Yup.number()
     .min(1, "Tidak boleh nol")
     .max(50, "Jumlah beli Tidak boleh lebih dari 50")
     .required("Required"),

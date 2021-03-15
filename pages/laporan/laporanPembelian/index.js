@@ -1,10 +1,10 @@
 import React from "react";
-import MenuUtama from "../../components/menuUtama";
+import MenuUtama from "../../../components/menuUtama";
 import { Grid } from "@material-ui/core";
-import TopBar from "../../components/utils/topBar";
-import Sidebar from "../../components/utils/Sidebar";
-import Footer from "../../components/utils/footer";
-import LaporanPembelian from '../../components/laporanPembelian'
+import TopBar from "../../../components/utils/topBar";
+import Sidebar from "../../../components/utils/Sidebar";
+import Footer from "../../../components/utils/footer";
+import LaporanPembelian from "../../../components/laporanPembelian";
 function index() {
   return (
     <>
