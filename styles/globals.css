@@ -7,7 +7,7 @@ body {
 .sideItem {
   background-color: black;
   border-radius: 15px;
-  height: 400px;
+  height: 460px;
   color: white;
   padding: 10px;
   opacity: 4;
@@ -15,4 +15,13 @@ body {
 .container {
   margin: auto;
   font-family: "Akaya Kanadaka";
+}
+.logoImage {
+  filter: drop-shadow(3px 3px purple);
+}
+
+.logo {
+  display: grid;
+  justify-content: center;
+  align-items: center;
 }

@@ -4,9 +4,14 @@ import { Grid } from "@material-ui/core";
 import TopBar from "../components/utils/topBar";
 import Sidebar from "../components/utils/Sidebar";
 import Footer from "../components/utils/footer";
-import { useSelector } from "react-redux";
+import { fetchItem } from "../src/redux/actions";
+import { useSelector, useDispatch } from "react-redux";
 
 function index() {
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(fetchItem());
+  }, []);
   return (
     <>
       <TopBar />

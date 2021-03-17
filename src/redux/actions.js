@@ -9,8 +9,10 @@ import {
   PENGELOLAAN_STOK_BELI,
   PENGELOLAAN_STOK_JUAL,
   LAPORAN_PENJUALAN,
+  FETCH_ITEM,
 } from "./actionType";
 import swal from "sweetalert";
+import axios from "axios";
 // crud item
 export const tambahItem = (data) => {
   return (dispatch) => {
@@ -149,5 +151,30 @@ export const laporanPenjualan = (laporan) => {
     swal("Berhasil beli item !", {
       icon: "success",
     });
+  };
+};
+
+// fetch data dari mongo
+export const fetchItem = () => {
+  return (dispatch) => {
+    axios
+      .get("http://localhost:4000/api/items")
+      .then((data) => {
+        console.log(data);
+        const obj = {
+          nama: data.data.nama,
+          stok: data.data.stok,
+          satuan: data.data.stok,
+          tanggalBeli: "23 Nov 2021",
+          hargaPerSatuan: 7000,
+          totalHarga: 7000,
+          key: "5",
+        };
+
+        dispatch({ type: FETCH_ITEM, data: data.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 };

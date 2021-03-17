@@ -10,6 +10,8 @@
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
+    "axios": "^0.21.1",
+    "express": "^4.17.1",
     "formik": "^2.2.6",
     "moment": "^2.29.1",
     "next": "9.5.3",
@@ -23,5 +25,9 @@
     "redux-thunk": "^2.3.0",
     "sweetalert": "^2.1.2",
     "yup": "^0.32.9"
-  }
+  },
+  "main": "index.js",
+  "repository": "https://github.com/yeremiaChris/inventoryapp.git",
+  "author": "yeremiaChris <yeremia997@gmail.com>",
+  "license": "MIT"
 }

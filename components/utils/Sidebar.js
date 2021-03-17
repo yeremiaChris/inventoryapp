@@ -54,6 +54,9 @@ export default function Sidebar() {
             </Link>
           );
         })}
+      <div className="logo">
+        <img className="logoImage" width="50" src="/image/kopi.png" alt="" />
+      </div>
     </ul>
   );
 }

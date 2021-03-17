@@ -40,7 +40,6 @@ const useStyles = makeStyles((theme) => ({
   pagination: {
     padding: 20,
     paddingRight: 0,
-    display: "flex",
     justifyContent: "flex-end",
   },
   menuButton: {
@@ -123,7 +122,10 @@ export default function tableDaftarBarang({ handleClickOpen, setDetail }) {
             })}
         </TableBody>
       </Table>
-      <div className={classes.pagination}>
+      <div
+        style={{ display: bahan.length <= 3 ? "none" : "flex" }}
+        className={classes.pagination}
+      >
         <IconButton
           disabled={beforePage <= 0 ? true : false}
           onClick={() =>
