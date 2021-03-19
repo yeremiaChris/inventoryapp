@@ -249,18 +249,15 @@ export const submitItem = (data, dispatch, handleClose) => {
     nama: data.nama,
     stok: 0,
     satuan: data.satuan,
-    tanggalBeli: moment(date).format("LL"), // "June 1, 2017"
     hargaPerSatuan: parseInt(data.hargaPerSatuan),
-    totalHarga: 4000,
-    key: key,
   };
   if (data) {
     dispatch(tambahItem(obj));
-    swal("Berhasil menambah item!", "", "success");
   }
   handleClose();
 };
 // edit item
+
 export const editButton = (dispatch, data, handleClose) => {
   console.log(data);
   const obj = {
@@ -271,7 +268,6 @@ export const editButton = (dispatch, data, handleClose) => {
   };
   if (data) {
     dispatch(editItem(data));
-    swal("Berhasil update item!", "", "success");
   }
   handleClose();
 };

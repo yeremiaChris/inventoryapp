@@ -6,7 +6,7 @@ module.exports.barang_get = (req, res) => {
     } else {
       res.status(201).send(data);
     }
-  });
+  }).sort({ createdAt: -1 });
 };
 
 module.exports.barang_post = (req, res, next) => {
@@ -31,10 +31,15 @@ module.exports.barang_put = (req, res, next) => {
 
 module.exports.barang_delete = (req, res, next) => {
   const { id } = req.params;
-  Barang.findByIdAndRemove(id, (err, data) => {
+  Barang.findById(id, (err, data) => {
     if (err) {
       res.status(400).send(err);
+    } else if (data) {
+      data.remove(() => {
+        res.status(201).send(data);
+      });
+    } else {
+      res.status(400).send("Not found");
     }
-    res.status(201).send(data);
   });
 };

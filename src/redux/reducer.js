@@ -91,7 +91,7 @@ export const reducer = (state = initialState, action) => {
         ...state,
         daftarItem: [
           ...state.daftarItem.filter((item) =>
-            item.key === action.key ? item.key !== action.key : item
+            item._id === action.key ? item._id !== action.key : item
           ),
         ],
       };
@@ -101,7 +101,7 @@ export const reducer = (state = initialState, action) => {
         ...state,
         daftarItem: [
           ...state.daftarItem.map((item) =>
-            item.key === action.key
+            item._id === action.key
               ? {
                   ...item,
                   nama: action.nama,

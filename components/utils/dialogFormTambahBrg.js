@@ -81,7 +81,7 @@ export default function FormDialog({
                   nama: detail.nama,
                   satuan: detail.satuan,
                   hargaPerSatuan: detail.hargaPerSatuan,
-                  key: detail.key,
+                  key: detail._id,
                 }
           }
           validationSchema={tambahSchema}

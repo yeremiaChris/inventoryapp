@@ -3,6 +3,8 @@ import { Grid, makeStyles } from "@material-ui/core";
 import TableDaftarBarang from "./utils/tableDaftarBarang";
 import ButtonSortDaftarBrg from "./utils/buttonSort";
 import ButtonDialogFormTambahBarang from "./utils/dialogFormTambahBrg";
+import { fetchItem } from "../src/redux/actions";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -30,10 +32,12 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
   },
 }));
+
 function daftarItem() {
   const classes = useStyles();
   // state detail untuk edit
   const [detail, setDetail] = React.useState();
+
   // state menampilkan dialog
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
@@ -45,6 +49,11 @@ function daftarItem() {
   };
   // akhir state menampilkan dialog
 
+  // fetch data tableBarang
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(fetchItem());
+  }, [dispatch]);
   return (
     <Grid container className={classes.container}>
       <Grid item lg={12} className={classes.wrapper}>

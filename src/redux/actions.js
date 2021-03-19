@@ -16,7 +16,17 @@ import axios from "axios";
 // crud item
 export const tambahItem = (data) => {
   return (dispatch) => {
-    dispatch({ type: TAMBAH_ITEM, data: data });
+    console.log(data);
+    axios
+      .post("http://localhost:4000/api/items/create", data)
+      .then((item) => {
+        console.log(item);
+        dispatch({ type: TAMBAH_ITEM, data: item.data });
+        swal("Berhasil menambah item!", "", "success");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 };
 export const hapusItem = (key, nama) => {
@@ -29,23 +39,43 @@ export const hapusItem = (key, nama) => {
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-        dispatch({ type: HAPUS_ITEM, key: key });
-        swal("Berhasil di hapus !", {
-          icon: "success",
-        });
+        axios
+          .delete(`http://localhost:4000/api/items/delete/${key}`)
+          .then((item) => {
+            dispatch({ type: HAPUS_ITEM, key: key });
+            swal("Berhasil di hapus !", {
+              icon: "success",
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     });
   };
 };
 export const editItem = (data) => {
   return (dispatch) => {
-    dispatch({
-      type: EDIT_ITEM,
-      key: data.key,
+    const obj = {
       nama: data.nama,
       satuan: data.satuan,
       hargaPerSatuan: data.hargaPerSatuan,
-    });
+    };
+    axios
+      .put(`http://localhost:4000/api/items/update/${data.key}`, obj)
+      .then((item) => {
+        dispatch({
+          type: EDIT_ITEM,
+          key: data.key,
+          nama: data.nama,
+          satuan: data.satuan,
+          hargaPerSatuan: data.hargaPerSatuan,
+        });
+        swal("Berhasil update item!", "", "success");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 };
 
@@ -160,17 +190,6 @@ export const fetchItem = () => {
     axios
       .get("http://localhost:4000/api/items")
       .then((data) => {
-        console.log(data);
-        const obj = {
-          nama: data.data.nama,
-          stok: data.data.stok,
-          satuan: data.data.stok,
-          tanggalBeli: "23 Nov 2021",
-          hargaPerSatuan: 7000,
-          totalHarga: 7000,
-          key: "5",
-        };
-
         dispatch({ type: FETCH_ITEM, data: data.data });
       })
       .catch((err) => {
