@@ -18,10 +18,6 @@ const barangSchema = new Schema(
       type: Number,
       required: [true, "Requred"],
     },
-    totalHarga: {
-      type: Number,
-      required: [true, "Required"],
-    },
   },
   { timestamps: true }
 );

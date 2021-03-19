@@ -1,36 +1,40 @@
 const Barang = require("../model/barangModel");
 module.exports.barang_get = (req, res) => {
-  // Barang.find({}, function(err, data) {
-  //   if (err) {
-  //     res.send(err);
-  //     next()
-  //   } else {
-  //     res.send(data);
-  //   }
   Barang.find({}, (err, data) => {
     if (err) {
-      res.send(err);
+      res.status(400).send(err);
     } else {
-      res.send(data);
+      res.status(201).send(data);
     }
   });
 };
 
 module.exports.barang_post = (req, res, next) => {
-  Barang.create(
-    {
-      nama: "Yeremia",
-      stok: 2,
-      satuan: "Orang",
-      hargaPerSatuan: 20000,
-      totalHarga: 40000,
-    },
-    (err, data) => {
-      if (err) {
-        res.status(500).send("error");
-        next();
-      }
-      res.send(data);
+  const { body } = req;
+  Barang.create(body, (err, data) => {
+    if (err) {
+      res.status(400).send(err);
+      next();
     }
-  );
+    res.status(201).send(data);
+  });
+};
+
+module.exports.barang_put = (req, res, next) => {
+  const { body } = req;
+  const { id } = req.params;
+  Barang.findByIdAndUpdate(id, body, (err, data) => {
+    if (err) return res.status(400).send(err);
+    res.status(201).send(data);
+  });
+};
+
+module.exports.barang_delete = (req, res, next) => {
+  const { id } = req.params;
+  Barang.findByIdAndRemove(id, (err, data) => {
+    if (err) {
+      res.status(400).send(err);
+    }
+    res.status(201).send(data);
+  });
 };

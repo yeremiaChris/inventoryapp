@@ -3,9 +3,11 @@ const mongoose = require("mongoose");
 const router = require("./routes/api");
 const app = express();
 const cors = require("cors");
-
+const bodyParser = require("body-parser");
 // middleware untuk cors
 app.use(cors());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 // router
 app.use("/api", router);
 // middleware kalo ada error
@@ -17,6 +19,7 @@ app.use((err, req, res, next) => {
 mongoose.connect("mongodb://localhost/inventoryDb", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useFindAndModify: false,
 });
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "Connection error : "));
