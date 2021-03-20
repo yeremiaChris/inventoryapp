@@ -63,7 +63,7 @@ export default function TableDetailLaporanBeli({ detailLaporan }) {
                 <TableCell>{row.satuan}</TableCell>
                 <TableCell>{row.stokAwal}</TableCell>
                 <TableCell>
-                  {router.pathname === "laporan/laporanPembelian"
+                  {router.pathname === "/laporan/laporanPembelian"
                     ? row.jumlahBeli
                     : row.jumlahJual}
                 </TableCell>

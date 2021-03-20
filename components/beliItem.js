@@ -62,7 +62,7 @@ function beliItem() {
   // function mendapatkan keterangan
   const keteranganBeliFunctionSelect = (e, values) => {
     pilihBarang.map((item) =>
-      item.key === e.target.value
+      item._id === e.target.value
         ? setKeteranganBeli({
             hargaSatuan: item.hargaPerSatuan,
             totalHarga:

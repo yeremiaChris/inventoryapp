@@ -178,9 +178,9 @@ export default function FormDialog({
                                   pilihBarang.map((item) => {
                                     return (
                                       <MenuItem
-                                        key={item.key}
+                                        key={item._id}
                                         selected={item.namaBarang}
-                                        value={item.key}
+                                        value={item._id}
                                       >
                                         {item.nama}
                                       </MenuItem>

@@ -12,8 +12,9 @@ import DetailLaporanDialog from "./detailLaporanDialog";
 import IconButton from "@material-ui/core/IconButton";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
+import { fetchLaporan } from "../../src/redux/actions";
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -54,6 +55,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function tableLaporan() {
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(fetchLaporan());
+  }, [dispatch]);
+
   const classes = useStyles();
   // handleDialogDetail
   const laporanPenjualan = useSelector(
@@ -111,13 +117,13 @@ export default function tableLaporan() {
                       : handleClickOpen(item.item, item.totalHargaJual)
                   }
                   hover
-                  key={item.key}
+                  key={item._id}
                 >
                   <StyledTableCell component="th" scope="row">
-                    {item.tanggal}
+                    {item.createdAt.slice(0, 10)}
                   </StyledTableCell>
                   <StyledTableCell component="th" scope="row">
-                    {item.waktu}
+                    {item.createdAt.slice(11, 16)}
                   </StyledTableCell>
                   <StyledTableCell align="right">
                     {router.pathname === "/laporan/laporanPembelian"

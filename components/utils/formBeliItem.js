@@ -266,8 +266,7 @@ export default function formBeliItem() {
           </Button>
           <Button
             onClick={() => {
-              dispatch(laporanPembelian(beliItem));
-              router.push("/laporan/laporanPembelian");
+              dispatch(laporanPembelian(beliItem, router));
             }}
             style={{ marginLeft: 10 }}
             variant="contained"

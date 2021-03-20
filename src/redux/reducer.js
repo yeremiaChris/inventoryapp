@@ -10,6 +10,7 @@ import {
   JUAL_ITEM,
   LAPORAN_PENJUALAN,
   FETCH_ITEM,
+  FETCH_LAPORAN_PEMBELIAN,
 } from "./actionType";
 const initialState = {
   daftarItem: [
@@ -174,6 +175,12 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         laporanPembelian: [...state.laporanPembelian, action.laporan],
+      };
+      break;
+    case FETCH_LAPORAN_PEMBELIAN:
+      return {
+        ...state,
+        laporanPembelian: action.laporan,
       };
       break;
     case LAPORAN_PENJUALAN:

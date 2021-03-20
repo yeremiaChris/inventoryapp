@@ -10,6 +10,7 @@ import {
   PENGELOLAAN_STOK_JUAL,
   LAPORAN_PENJUALAN,
   FETCH_ITEM,
+  FETCH_LAPORAN_PEMBELIAN,
 } from "./actionType";
 import swal from "sweetalert";
 import axios from "axios";
@@ -90,11 +91,11 @@ export const beliItem = (data, detail, handleClose) => {
       totalStok: detail.totalStok,
       hargaSatuan: detail.hargaSatuan,
       totalHarga: parseInt(data.jumlahBeli) * detail.hargaSatuan,
-      tanggal: new Date().toDateString(),
       key: data.namaBarang,
     };
     dispatch({ type: BELI_ITEM, data: obj });
     handleClose();
+    console.log(data);
   };
 };
 export const resetItem = () => {
@@ -123,36 +124,56 @@ export const jualItem = (data, detail, handleClose) => {
 };
 
 // laporan
-export const laporanPembelian = (laporan) => {
-  const laporanTotalHargaBeli =
-    laporan.length <= 1
-      ? laporan.map((item) => item.totalHarga)
-      : laporan.reduce((acc, curr) => {
-          return acc + curr.totalHarga;
-        }, 0);
+export const laporanPembelian = (laporan, router) => {
+  let laporanTotalHargaBeli = 0;
+  laporan.length <= 1
+    ? laporan.map((item) => {
+        laporanTotalHargaBeli = item.totalHarga;
+      })
+    : (laporanTotalHargaBeli = laporan.reduce((acc, curr) => {
+        return acc + curr.totalHarga;
+      }, 0));
   const obj = {
-    tanggal: new Date().toDateString(),
-    waktu: new Date().toTimeString(),
     jumlahItemBeli: laporan.length,
     totalHargaBeli: laporanTotalHargaBeli,
     item: laporan,
-    key: Math.random().toString(),
   };
   return (dispatch) => {
-    laporan.forEach((element) => {
-      dispatch({
-        type: PENGELOLAAN_STOK_BELI,
-        key: element.key,
-        totalStok: element.totalStok,
+    // laporan.forEach((element) => {
+    //   dispatch({
+    //     type: PENGELOLAAN_STOK_BELI,
+    //     key: element.key,
+    //     totalStok: element.totalStok,
+    //   });
+    // });
+    axios
+      .post(`http://localhost:4000/api/pembelian/create`, obj)
+      .then((item) => {
+        dispatch({ type: LAPORAN_PEMBELIAN, laporan: item.data });
+        dispatch({ type: RESET_ITEM });
+        swal("Berhasil beli item !", {
+          icon: "success",
+        });
+        router.push("/laporan/laporanPembelian");
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    });
-    dispatch({ type: LAPORAN_PEMBELIAN, laporan: obj });
-    dispatch({ type: RESET_ITEM });
-    swal("Berhasil beli item !", {
-      icon: "success",
-    });
   };
 };
+export const fetchLaporan = () => {
+  return (dispatch) => {
+    axios
+      .get(`http://localhost:4000/api/pembelian`)
+      .then((item) => {
+        dispatch({ type: FETCH_LAPORAN_PEMBELIAN, laporan: item.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
+
 export const laporanPenjualan = (laporan) => {
   const laporanTotalHargaBeli =
     laporan.length <= 1
@@ -176,6 +197,7 @@ export const laporanPenjualan = (laporan) => {
         totalStok: element.totalStok,
       });
     });
+
     dispatch({ type: LAPORAN_PENJUALAN, laporan: obj });
     dispatch({ type: RESET_ITEM });
     swal("Berhasil beli item !", {

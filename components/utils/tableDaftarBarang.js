@@ -45,14 +45,6 @@ const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
   },
-  totalBarang: {
-    marginRight: 25,
-    fontFamily: "Arial",
-    fontWeight: "normal",
-    margin: 0,
-    padding: 0,
-    fontSize: 25,
-  },
 }));
 
 export default function tableDaftarBarang({ handleClickOpen, setDetail }) {
@@ -134,7 +126,6 @@ export default function tableDaftarBarang({ handleClickOpen, setDetail }) {
         style={{ display: bahan.length <= 3 ? "none" : "flex" }}
         className={classes.pagination}
       >
-        <h1 className={classes.totalBarang}>Total Item : {bahan.length}</h1>
         <IconButton
           disabled={beforePage <= 0 ? true : false}
           onClick={() =>
