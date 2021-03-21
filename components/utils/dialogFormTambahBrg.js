@@ -22,6 +22,8 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import { useDispatch } from "react-redux";
 import { Formik } from "formik";
+
+import CurrencyTextField from "@unicef/material-ui-currency-textfield";
 const useStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(1),
@@ -140,22 +142,38 @@ export default function FormDialog({
                         </div>
                       ) : (
                         <div key={item.key}>
-                          <TextField
-                            className={classes.field}
-                            margin="dense"
-                            id="name"
-                            label={item.nama}
-                            type={item.value === "nama" ? "text" : "number"}
-                            fullWidth
-                            onChange={(e) =>
-                              handleChangeTambahBarang(e, item, setFieldValue)
-                            }
-                            value={
-                              item.value === "nama"
-                                ? values.nama
-                                : values.hargaPerSatuan
-                            }
-                          />
+                          {item.value === "nama" ? (
+                            <TextField
+                              className={classes.field}
+                              margin="dense"
+                              id="name"
+                              label={item.nama}
+                              type="text"
+                              fullWidth
+                              onChange={(e) =>
+                                setFieldValue("nama", e.target.value)
+                              }
+                              value={values.nama}
+                            />
+                          ) : (
+                            <CurrencyTextField
+                              label={item.nama}
+                              fullWidth
+                              variant="standard"
+                              value={values.hargaPerSatuan}
+                              currencySymbol="Rp. "
+                              textAlign="left"
+                              outputFormat="number"
+                              maximumValue="1000000000"
+                              minimumValue="0"
+                              decimalCharacter="."
+                              digitGroupSeparator=","
+                              onChange={(e, value) => {
+                                setFieldValue("hargaPerSatuan", value);
+                              }}
+                            />
+                          )}
+
                           {item.value === "nama" ? (
                             <div>
                               {errors.nama && touched.nama ? (

@@ -67,7 +67,9 @@ export default function DetailLaporanDialog({
         open={open}
       >
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          <h3 style={{ margin: 0, padding: 0 }}> Detail item beli</h3>
+          <div>
+            <h2 style={{ margin: 0, padding: 0 }}> Detail item beli</h2>
+          </div>
           <div style={{ display: "flex" }}>
             <div style={{ marginRight: 15 }}>
               <h5 style={{ margin: 0, padding: 0 }}> Total item</h5>

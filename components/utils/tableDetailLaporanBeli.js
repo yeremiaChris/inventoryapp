@@ -43,7 +43,7 @@ export default function TableDetailLaporanBeli({ detailLaporan }) {
             <TableCell>Satuan</TableCell>
             <TableCell>Persediaan awal</TableCell>
             <TableCell>
-              Jumlah{" "}
+              Jumlah
               {router.pathname === "/laporan/laporanPembelian"
                 ? "beli"
                 : "jual"}
