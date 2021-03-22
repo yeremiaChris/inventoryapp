@@ -7,6 +7,7 @@ export const EDIT_ITEM = "editItem";
 export const BELI_ITEM = "beliItem";
 export const RESET_ITEM = "resetItem";
 export const FETCH_LAPORAN_PEMBELIAN = "fetchLaporanPembelian";
+export const FETCH_LAPORAN_PENJUALAN = "fetchLaporanPenjualan";
 // laporan
 export const LAPORAN_PEMBELIAN = "laporanPembelian";
 export const LAPORAN_PENJUALAN = "laporanPenjualan";

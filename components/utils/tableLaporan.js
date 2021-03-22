@@ -14,7 +14,7 @@ import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-import { fetchLaporan } from "../../src/redux/actions";
+import { fetchLaporan, fetchLaporanJual } from "../../src/redux/actions";
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -58,6 +58,7 @@ export default function tableLaporan() {
   const dispatch = useDispatch();
   React.useEffect(() => {
     dispatch(fetchLaporan());
+    dispatch(fetchLaporanJual());
   }, [dispatch]);
 
   const classes = useStyles();
@@ -93,7 +94,7 @@ export default function tableLaporan() {
             <StyledTableCell>Tanggal</StyledTableCell>
             <StyledTableCell>Waktu</StyledTableCell>
             <StyledTableCell align="right">
-              Jumlah Item{" "}
+              Item Yang
               {router.pathname === "/laporan/laporanPembelian"
                 ? "Beli"
                 : "Jual"}

@@ -11,6 +11,7 @@ import {
   LAPORAN_PENJUALAN,
   FETCH_ITEM,
   FETCH_LAPORAN_PEMBELIAN,
+  FETCH_LAPORAN_PENJUALAN,
 } from "./actionType";
 import swal from "sweetalert";
 import axios from "axios";
@@ -173,36 +174,57 @@ export const fetchLaporan = () => {
       });
   };
 };
-
-export const laporanPenjualan = (laporan) => {
-  const laporanTotalHargaBeli =
-    laporan.length <= 1
-      ? laporan.map((item) => item.totalHarga)
-      : laporan.reduce((acc, curr) => {
-          return acc + curr.totalHarga;
-        }, 0);
-  const obj = {
-    tanggal: new Date().toDateString(),
-    waktu: new Date().toTimeString(),
-    jumlahItemJual: laporan.length,
-    totalHargaJual: laporanTotalHargaBeli,
-    item: laporan,
-    key: Math.random().toString(),
-  };
+export const fetchLaporanJual = () => {
   return (dispatch) => {
-    laporan.forEach((element) => {
-      dispatch({
-        type: PENGELOLAAN_STOK_JUAL,
-        key: element.key,
-        totalStok: element.totalStok,
+    axios
+      .get(`http://localhost:4000/api/penjualan`)
+      .then((item) => {
+        dispatch({ type: FETCH_LAPORAN_PENJUALAN, laporan: item.data });
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    });
+  };
+};
 
-    dispatch({ type: LAPORAN_PENJUALAN, laporan: obj });
-    dispatch({ type: RESET_ITEM });
-    swal("Berhasil beli item !", {
-      icon: "success",
-    });
+export const laporanPenjualan = (laporan, router) => {
+  let laporanTotalHargaJual = 0;
+  laporan.length <= 1
+    ? laporan.map((item) => {
+        laporanTotalHargaJual = item.totalHarga;
+      })
+    : (laporanTotalHargaJual = laporan.reduce((acc, curr) => {
+        return acc + curr.totalHarga;
+      }, 0));
+  const obj = {
+    jumlahItemJual: laporan.length,
+    totalHargaJual: laporanTotalHargaJual,
+    item: laporan,
+  };
+
+  return (dispatch) => {
+    // laporan.forEach((element) => {
+    //   dispatch({
+    //     type: PENGELOLAAN_STOK_JUAL,
+    //     key: element.key,
+    //     totalStok: element.totalStok,
+    //   });
+    // });
+
+    axios
+      .post(`http://localhost:4000/api/penjualan/create`, obj)
+      .then((item) => {
+        console.log(item);
+        dispatch({ type: LAPORAN_PENJUALAN, laporan: item.data });
+        dispatch({ type: RESET_ITEM });
+        swal("Berhasil Jual item !", {
+          icon: "success",
+        });
+        router.push("/laporan/laporanPenjualan");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 };
 

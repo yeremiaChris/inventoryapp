@@ -218,7 +218,6 @@ export default function FormDialog({
                         ) : (
                           <div key={item.key}>
                             <TextField
-                              disabled={disabledButtonInputJumlahJual}
                               className={classes.field}
                               key={item.key}
                               onChange={(e) => {

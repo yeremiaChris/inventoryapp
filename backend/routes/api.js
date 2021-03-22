@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const barangController = require("../controller/barangController");
 const beliBarangController = require("../controller/beliBarangController");
+const jualBarangController = require("../controller/jualBarangController");
 // crud barang
 router.get("/items", barangController.barang_get);
 router.post("/items/create", barangController.barang_post);
@@ -12,3 +13,6 @@ module.exports = router;
 // pembelian
 router.get("/pembelian", beliBarangController.beli_get);
 router.post("/pembelian/create", beliBarangController.beli_create);
+// penjualan
+router.get("/penjualan", jualBarangController.jual_get);
+router.post("/penjualan/create", jualBarangController.jual_create);

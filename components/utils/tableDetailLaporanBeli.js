@@ -39,7 +39,7 @@ export default function TableDetailLaporanBeli({ detailLaporan }) {
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Nama barang</TableCell>
+            <TableCell>Nama barang </TableCell>
             <TableCell>Satuan</TableCell>
             <TableCell>Persediaan awal</TableCell>
             <TableCell>

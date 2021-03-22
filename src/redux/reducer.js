@@ -11,6 +11,7 @@ import {
   LAPORAN_PENJUALAN,
   FETCH_ITEM,
   FETCH_LAPORAN_PEMBELIAN,
+  FETCH_LAPORAN_PENJUALAN,
 } from "./actionType";
 const initialState = {
   daftarItem: [
@@ -174,7 +175,7 @@ export const reducer = (state = initialState, action) => {
     case LAPORAN_PEMBELIAN:
       return {
         ...state,
-        laporanPembelian: [...state.laporanPembelian, action.laporan],
+        laporanPembelian: [action.laporan, ...state.laporanPembelian],
       };
       break;
     case FETCH_LAPORAN_PEMBELIAN:
@@ -183,10 +184,16 @@ export const reducer = (state = initialState, action) => {
         laporanPembelian: action.laporan,
       };
       break;
+    case FETCH_LAPORAN_PENJUALAN:
+      return {
+        ...state,
+        laporanPenjualan: action.laporan,
+      };
+      break;
     case LAPORAN_PENJUALAN:
       return {
         ...state,
-        laporanPenjualan: [...state.laporanPenjualan, action.laporan],
+        laporanPenjualan: [action.laporan, ...state.laporanPenjualan],
       };
       break;
     case PENGELOLAAN_STOK_BELI:

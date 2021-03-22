@@ -294,8 +294,7 @@ export default function formBeliItem() {
           </Button>
           <Button
             onClick={() => {
-              dispatch(laporanPenjualan(jualItem));
-              router.push("/laporan/laporanPenjualan");
+              dispatch(laporanPenjualan(jualItem, router));
             }}
             style={{ marginLeft: 10 }}
             variant="contained"

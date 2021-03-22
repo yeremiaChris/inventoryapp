@@ -88,7 +88,7 @@ function jualItem() {
   };
   const keteranganJualFunctionSelect = (e, values) => {
     pilihBarang.map((item) =>
-      item.key === e.target.value
+      item._id === e.target.value
         ? selectFunctionKeteranganJual(item, values)
         : item
     );

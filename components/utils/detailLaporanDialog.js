@@ -65,6 +65,7 @@ export default function DetailLaporanDialog({
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
+        maxWidth={false}
       >
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
           <div>
