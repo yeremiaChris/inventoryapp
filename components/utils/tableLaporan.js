@@ -87,7 +87,6 @@ export default function tableLaporan() {
     router.pathname === "/laporan/laporanPembelian"
       ? laporanPembelian.slice(beforePage, nextPage)
       : laporanPenjualan.slice(beforePage, nextPage);
-  console.log(laporanPembelian);
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">

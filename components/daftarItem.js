@@ -4,7 +4,7 @@ import TableDaftarBarang from "./utils/tableDaftarBarang";
 import ButtonSortDaftarBrg from "./utils/buttonSort";
 import ButtonDialogFormTambahBarang from "./utils/dialogFormTambahBrg";
 import { fetchItem } from "../src/redux/actions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -34,6 +34,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function daftarItem() {
+  const data = useSelector((state) => state.daftarItem.daftarItem);
+
   const classes = useStyles();
   // state detail untuk edit
   const [detail, setDetail] = React.useState();
@@ -66,7 +68,7 @@ function daftarItem() {
         />
       </Grid>
       <Grid item lg={12}>
-        <ButtonSortDaftarBrg />
+        <ButtonSortDaftarBrg data={data} />
         <TableDaftarBarang
           setDetail={setDetail}
           handleClickOpen={handleClickOpen}

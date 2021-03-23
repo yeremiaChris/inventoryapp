@@ -8,7 +8,8 @@ import InputBase from "@material-ui/core/InputBase";
 import { urutkan, urutkanLaporan } from "./utils";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
-import { handleChangeSort } from "./sorting";
+import { handleChangeSort, filterData } from "./sorting";
+import { fetchItem } from "../../src/redux/actions";
 const useStyles = makeStyles((theme) => ({
   formControl: {
     marginBottom: 10,
@@ -64,16 +65,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NativeSelects({ api }) {
+export default function NativeSelects({ api, data }) {
   const classes = useStyles();
   const [state, setState] = React.useState({
     Urutkan: "",
     name: "hai",
   });
-  const data = useSelector((state) => state.daftarItem.daftarItem);
   const dispatch = useDispatch();
 
   const router = useRouter();
+  const dispatchFilter = (data) => {
+    dispatch({ type: "search", data: data });
+  };
   return (
     <div className={classes.container}>
       <div>
@@ -117,6 +120,7 @@ export default function NativeSelects({ api }) {
           <SearchIcon />
         </div>
         <InputBase
+          onChange={(e) => filterData(e.target.value, data, dispatch, router)}
           placeholder="Cari…"
           classes={{
             root: classes.inputRoot,

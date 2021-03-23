@@ -3,6 +3,7 @@ import { Grid, makeStyles } from "@material-ui/core";
 import TableLaporan from "./utils/tableLaporan";
 import ButtonSortDaftarBrg from "./utils/buttonSort";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
 const useStyles = makeStyles((theme) => ({
   container: {
     marginLeft: 10,
@@ -30,6 +31,8 @@ const useStyles = makeStyles((theme) => ({
 function laporanPembelian({ title }) {
   const classes = useStyles();
   const router = useRouter();
+  const penjualan = useSelector((state) => state.daftarItem.laporanPenjualan);
+  const pembelian = useSelector((state) => state.daftarItem.laporanPembelian);
   return (
     <Grid container className={classes.container}>
       <Grid item lg={12} className={classes.wrapper}>
@@ -41,6 +44,11 @@ function laporanPembelian({ title }) {
             router.pathname === "/laporan/laporanPembelian"
               ? "pembelian/"
               : "penjualan/"
+          }
+          data={
+            router.pathname === "/laporan/laporanPembelian"
+              ? pembelian
+              : penjualan
           }
         />
         <TableLaporan />

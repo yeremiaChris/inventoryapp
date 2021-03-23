@@ -84,6 +84,21 @@ const initialState = {
 };
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case "search":
+      return {
+        ...state,
+        daftarItem: action.data,
+      };
+    case "searchLaporanPembelian":
+      return {
+        ...state,
+        laporanPembelian: action.data,
+      };
+    case "searchLaporanPenjualan":
+      return {
+        ...state,
+        laporanPenjualan: action.data,
+      };
     case FETCH_ITEM:
       return {
         ...state,
