@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NativeSelects() {
+export default function NativeSelects({ api }) {
   const classes = useStyles();
   const [state, setState] = React.useState({
     Urutkan: "",
@@ -82,7 +82,9 @@ export default function NativeSelects() {
           <Select
             native
             value={state.age}
-            onChange={(e) => handleChangeSort(e, dispatch, setState, state)}
+            onChange={(e) =>
+              handleChangeSort(e, dispatch, setState, state, router, api)
+            }
             label="Urutkan"
             inputProps={{
               name: "Urutkan",

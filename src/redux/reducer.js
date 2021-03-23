@@ -16,6 +16,9 @@ import {
   LAPORAN_PEMBELIAN_SEMINGGU,
   LAPORAN_PEMBELIAN_SETAHUN,
   LAPORAN_PEMBELIAN_SEBULAN,
+  LAPORAN_PENJUALAN_SEMINGGU,
+  LAPORAN_PENJUALAN_SEBULAN,
+  LAPORAN_PENJUALAN_SETAHUN,
 } from "./actionType";
 const initialState = {
   daftarItem: [
@@ -204,6 +207,24 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         laporanPembelian: action.laporan,
+      };
+      break;
+    case LAPORAN_PENJUALAN_SEMINGGU:
+      return {
+        ...state,
+        laporanPenjualan: action.laporan,
+      };
+      break;
+    case LAPORAN_PENJUALAN_SEBULAN:
+      return {
+        ...state,
+        laporanPenjualan: action.laporan,
+      };
+      break;
+    case LAPORAN_PENJUALAN_SETAHUN:
+      return {
+        ...state,
+        laporanPenjualan: action.laporan,
       };
       break;
     case FETCH_LAPORAN_PENJUALAN:

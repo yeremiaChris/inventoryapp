@@ -96,10 +96,10 @@ export default function tableLaporan() {
             <StyledTableCell>Tanggal</StyledTableCell>
             <StyledTableCell>Waktu</StyledTableCell>
             <StyledTableCell align="right">
-              Item Yang
+              Item Yang di
               {router.pathname === "/laporan/laporanPembelian"
-                ? "Beli"
-                : "Jual"}
+                ? " Beli"
+                : " Jual"}
             </StyledTableCell>
             <StyledTableCell align="right">
               Total Harga{" "}

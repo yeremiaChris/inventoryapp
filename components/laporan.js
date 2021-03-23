@@ -2,7 +2,7 @@ import React from "react";
 import { Grid, makeStyles } from "@material-ui/core";
 import TableLaporan from "./utils/tableLaporan";
 import ButtonSortDaftarBrg from "./utils/buttonSort";
-
+import { useRouter } from "next/router";
 const useStyles = makeStyles((theme) => ({
   container: {
     marginLeft: 10,
@@ -29,14 +29,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 function laporanPembelian({ title }) {
   const classes = useStyles();
+  const router = useRouter();
   return (
     <Grid container className={classes.container}>
       <Grid item lg={12} className={classes.wrapper}>
         <h1 className={classes.header}>Laporan {title} Barang</h1>
       </Grid>
       <Grid item lg={12}>
-        <ButtonSortDaftarBrg />
-        <TableLaporan  />
+        <ButtonSortDaftarBrg
+          api={
+            router.pathname === "/laporan/laporanPembelian"
+              ? "pembelian/"
+              : "penjualan/"
+          }
+        />
+        <TableLaporan />
       </Grid>
     </Grid>
   );

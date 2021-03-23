@@ -18,6 +18,8 @@ export const LAPORAN_PEMBELIAN_SETAHUN = "laporanPembelianSetahun";
 export const LAPORAN_PENJUALAN = "laporanPenjualan";
 export const PENGELOLAAN_STOK_BELI = "pengelolaanStokBeli";
 export const PENGELOLAAN_STOK_JUAL = "pengelolaanStokJual";
-
+export const LAPORAN_PENJUALAN_SEMINGGU = "laporanPenjualanSeminggu";
+export const LAPORAN_PENJUALAN_SEBULAN = "laporanPenjualanSebulan";
+export const LAPORAN_PENJUALAN_SETAHUN = "laporanPenjualanSetahun";
 // penjualan
 export const JUAL_ITEM = "jualItem";

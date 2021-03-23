@@ -180,7 +180,7 @@ export const fetchLaporan = () => {
 export const fetchLaporanBeliSorting = (api, typeDispatch) => {
   return (dispatch) => {
     axios
-      .get(`http://localhost:4000/api/pembelian/${api}`)
+      .get(`http://localhost:4000/api/${api}`)
       .then((item) => {
         dispatch({ type: typeDispatch, laporan: item.data });
       })

@@ -27,4 +27,7 @@ router.get("/pembelian/setahun", beliBarangController.beli_sort_setahun);
 router.post("/pembelian/create", beliBarangController.beli_create);
 // penjualan
 router.get("/penjualan", jualBarangController.jual_get);
+router.get("/penjualan/seminggu", jualBarangController.jual_sort_seminggu);
+router.get("/penjualan/sebulan", jualBarangController.jual_sort_sebulan);
+router.get("/penjualan/setahun", jualBarangController.jual_sort_setahun);
 router.post("/penjualan/create", jualBarangController.jual_create);
