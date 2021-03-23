@@ -34,3 +34,59 @@ module.exports.beli_create = (req, res, next) => {
     res.status(201).send(data);
   });
 };
+
+// sorting
+module.exports.beli_sort_seminggu = (req, res, next) => {
+  Beli.find(
+    {
+      createdAt: {
+        $lte: new Date(),
+        $gte: new Date(new Date() - 7 * 60 * 60 * 24 * 1000),
+      },
+    },
+    (err, data) => {
+      if (err) {
+        console.log(err);
+        next();
+      }
+      console.log(data);
+      res.status(201).send(data);
+    }
+  );
+};
+module.exports.beli_sort_sebulan = (req, res, next) => {
+  Beli.find(
+    {
+      createdAt: {
+        $lte: new Date(),
+        $gte: new Date(new Date() - 30 * 60 * 60 * 24 * 1000),
+      },
+    },
+    (err, data) => {
+      if (err) {
+        console.log(err);
+        next();
+      }
+      console.log(data);
+      res.status(201).send(data);
+    }
+  );
+};
+module.exports.beli_sort_setahun = (req, res, next) => {
+  Beli.find(
+    {
+      createdAt: {
+        $lte: new Date(),
+        $gte: new Date(new Date() - 365 * 60 * 60 * 24 * 1000),
+      },
+    },
+    (err, data) => {
+      if (err) {
+        console.log(err);
+        next();
+      }
+      console.log(data);
+      res.status(201).send(data);
+    }
+  );
+};

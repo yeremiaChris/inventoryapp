@@ -15,6 +15,7 @@ import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { fetchLaporan, fetchLaporanJual } from "../../src/redux/actions";
+import moment from "moment";
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -86,6 +87,7 @@ export default function tableLaporan() {
     router.pathname === "/laporan/laporanPembelian"
       ? laporanPembelian.slice(beforePage, nextPage)
       : laporanPenjualan.slice(beforePage, nextPage);
+  console.log(laporanPembelian);
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">
@@ -121,10 +123,10 @@ export default function tableLaporan() {
                   key={item._id}
                 >
                   <StyledTableCell component="th" scope="row">
-                    {item.createdAt.slice(0, 10)}
+                    {moment(item.createdAt).format("MMMM Do YY")}
                   </StyledTableCell>
                   <StyledTableCell component="th" scope="row">
-                    {item.createdAt.slice(11, 16)}
+                    {moment(item.createdAt).format("h:mm A")}
                   </StyledTableCell>
                   <StyledTableCell align="right">
                     {router.pathname === "/laporan/laporanPembelian"

@@ -12,6 +12,9 @@ import {
   FETCH_ITEM,
   FETCH_LAPORAN_PEMBELIAN,
   FETCH_LAPORAN_PENJUALAN,
+  SORT_ITEM_STOK_HABIS,
+  SORT_ITEM_STOK_SEDIKIT,
+  SORT_ITEM_STOK_BANYAK,
 } from "./actionType";
 import swal from "sweetalert";
 import axios from "axios";
@@ -174,6 +177,18 @@ export const fetchLaporan = () => {
       });
   };
 };
+export const fetchLaporanBeliSorting = (api, typeDispatch) => {
+  return (dispatch) => {
+    axios
+      .get(`http://localhost:4000/api/pembelian/${api}`)
+      .then((item) => {
+        dispatch({ type: typeDispatch, laporan: item.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
 export const fetchLaporanJual = () => {
   return (dispatch) => {
     axios
@@ -235,6 +250,44 @@ export const fetchItem = () => {
       .get("http://localhost:4000/api/items")
       .then((data) => {
         dispatch({ type: FETCH_ITEM, data: data.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
+
+// sorting
+export const sortStokHabis = () => {
+  return (dispatch) => {
+    axios
+      .get("http://localhost:4000/api/items/sort/stokHabis")
+      .then((data) => {
+        dispatch({ type: SORT_ITEM_STOK_HABIS, data: data.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
+export const sortStokSedikit = () => {
+  return (dispatch) => {
+    axios
+      .get("http://localhost:4000/api/items/sort/stokSedikit")
+      .then((data) => {
+        dispatch({ type: SORT_ITEM_STOK_SEDIKIT, data: data.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
+export const sortStokBanyak = () => {
+  return (dispatch) => {
+    axios
+      .get("http://localhost:4000/api/items/sort/stokBanyak")
+      .then((data) => {
+        dispatch({ type: SORT_ITEM_STOK_BANYAK, data: data.data });
       })
       .catch((err) => {
         console.log(err);

@@ -7,7 +7,8 @@ import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
 import { urutkan, urutkanLaporan } from "./utils";
 import { useRouter } from "next/router";
-
+import { useSelector, useDispatch } from "react-redux";
+import { handleChangeSort } from "./sorting";
 const useStyles = makeStyles((theme) => ({
   formControl: {
     marginBottom: 10,
@@ -66,17 +67,11 @@ const useStyles = makeStyles((theme) => ({
 export default function NativeSelects() {
   const classes = useStyles();
   const [state, setState] = React.useState({
-    age: "",
+    Urutkan: "",
     name: "hai",
   });
-
-  const handleChange = (event) => {
-    const name = event.target.name;
-    setState({
-      ...state,
-      [name]: event.target.value,
-    });
-  };
+  const data = useSelector((state) => state.daftarItem.daftarItem);
+  const dispatch = useDispatch();
 
   const router = useRouter();
   return (
@@ -87,7 +82,7 @@ export default function NativeSelects() {
           <Select
             native
             value={state.age}
-            onChange={handleChange}
+            onChange={(e) => handleChangeSort(e, dispatch, setState, state)}
             label="Urutkan"
             inputProps={{
               name: "Urutkan",

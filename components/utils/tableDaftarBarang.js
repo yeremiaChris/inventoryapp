@@ -16,6 +16,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { formatRupiah, totalHarga, next, before } from "./utils";
 import IconButton from "@material-ui/core/IconButton";
 import { hapusItem } from "../../src/redux/actions";
+import Typography from "@material-ui/core/Typography";
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -76,51 +77,61 @@ export default function tableDaftarBarang({ handleClickOpen, setDetail }) {
             <StyledTableCell align="right">Aksi</StyledTableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
-          {currentPage &&
-            currentPage.map((row) => {
-              return (
-                <StyledTableRow key={row._id}>
-                  <StyledTableCell component="th" scope="row">
-                    {row.nama}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    {row.createdAt.slice(0, 10)}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">{row.stok}</StyledTableCell>
-                  <StyledTableCell align="right">{row.satuan}</StyledTableCell>
-                  <StyledTableCell align="right">
-                    {formatRupiah(row.hargaPerSatuan)}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    {formatRupiah(totalHarga(row.stok, row.hargaPerSatuan))}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    <Button
-                      onClick={() => edit(row)}
-                      variant="contained"
-                      color="secondary"
-                      startIcon={<EditIcon />}
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      onClick={() => dispatch(hapusItem(row._id, row.nama))}
-                      style={{
-                        backgroundColor: "maroon",
-                        color: "white",
-                        marginLeft: 10,
-                      }}
-                      variant="contained"
-                      startIcon={<DeleteIcon />}
-                    >
-                      Delete
-                    </Button>
-                  </StyledTableCell>
-                </StyledTableRow>
-              );
-            })}
-        </TableBody>
+        {currentPage.length === 0 ? (
+          <TableBody>
+            <StyledTableRow>
+              <StyledTableCell>Data tidak ada</StyledTableCell>
+            </StyledTableRow>
+          </TableBody>
+        ) : (
+          <TableBody>
+            {currentPage &&
+              currentPage.map((row) => {
+                return (
+                  <StyledTableRow key={row._id}>
+                    <StyledTableCell component="th" scope="row">
+                      {row.nama}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      {row.createdAt.slice(0, 10)}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">{row.stok}</StyledTableCell>
+                    <StyledTableCell align="right">
+                      {row.satuan}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      {formatRupiah(row.hargaPerSatuan)}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      {formatRupiah(totalHarga(row.stok, row.hargaPerSatuan))}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      <Button
+                        onClick={() => edit(row)}
+                        variant="contained"
+                        color="secondary"
+                        startIcon={<EditIcon />}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        onClick={() => dispatch(hapusItem(row._id, row.nama))}
+                        style={{
+                          backgroundColor: "maroon",
+                          color: "white",
+                          marginLeft: 10,
+                        }}
+                        variant="contained"
+                        startIcon={<DeleteIcon />}
+                      >
+                        Delete
+                      </Button>
+                    </StyledTableCell>
+                  </StyledTableRow>
+                );
+              })}
+          </TableBody>
+        )}
       </Table>
       <div
         style={{ display: bahan.length <= 3 ? "none" : "flex" }}

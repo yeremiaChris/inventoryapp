@@ -49,3 +49,34 @@ module.exports.barang_delete = (req, res, next) => {
     }
   });
 };
+
+module.exports.barang_sortStokHabis_get = (req, res, next) => {
+  Barang.find({ stok: 0 }, (err, data) => {
+    if (err) {
+      res.status(400).send(err);
+      next();
+    } else {
+      res.status(201).send(data);
+    }
+  }).sort({ createdAt: -1 });
+};
+module.exports.barang_sortStokSedikit_get = (req, res, next) => {
+  Barang.find({}, (err, data) => {
+    if (err) {
+      res.status(400).send(err);
+      next();
+    } else {
+      res.status(201).send(data);
+    }
+  }).sort({ stok: 1 });
+};
+module.exports.barang_sortStokTerbanyak_get = (req, res, next) => {
+  Barang.find({}, (err, data) => {
+    if (err) {
+      res.status(400).send(err);
+      next();
+    } else {
+      res.status(201).send(data);
+    }
+  }).sort({ stok: -1 });
+};

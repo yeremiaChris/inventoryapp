@@ -5,13 +5,17 @@ import {
   BELI_ITEM,
   RESET_ITEM,
   LAPORAN_PEMBELIAN,
-  PENGELOLAAN_STOK_BELI,
-  PENGELOLAAN_STOK_JUAL,
   JUAL_ITEM,
   LAPORAN_PENJUALAN,
   FETCH_ITEM,
   FETCH_LAPORAN_PEMBELIAN,
   FETCH_LAPORAN_PENJUALAN,
+  SORT_ITEM_STOK_HABIS,
+  SORT_ITEM_STOK_SEDIKIT,
+  SORT_ITEM_STOK_BANYAK,
+  LAPORAN_PEMBELIAN_SEMINGGU,
+  LAPORAN_PEMBELIAN_SETAHUN,
+  LAPORAN_PEMBELIAN_SEBULAN,
 } from "./actionType";
 const initialState = {
   daftarItem: [
@@ -184,6 +188,24 @@ export const reducer = (state = initialState, action) => {
         laporanPembelian: action.laporan,
       };
       break;
+    case LAPORAN_PEMBELIAN_SEMINGGU:
+      return {
+        ...state,
+        laporanPembelian: action.laporan,
+      };
+      break;
+    case LAPORAN_PEMBELIAN_SEBULAN:
+      return {
+        ...state,
+        laporanPembelian: action.laporan,
+      };
+      break;
+    case LAPORAN_PEMBELIAN_SETAHUN:
+      return {
+        ...state,
+        laporanPembelian: action.laporan,
+      };
+      break;
     case FETCH_LAPORAN_PENJUALAN:
       return {
         ...state,
@@ -196,34 +218,22 @@ export const reducer = (state = initialState, action) => {
         laporanPenjualan: [action.laporan, ...state.laporanPenjualan],
       };
       break;
-    case PENGELOLAAN_STOK_BELI:
+    case SORT_ITEM_STOK_HABIS:
       return {
         ...state,
-        daftarItem: [
-          ...state.daftarItem.map((item) =>
-            item.key === action.key
-              ? {
-                  ...item,
-                  stok: action.totalStok,
-                }
-              : item
-          ),
-        ],
+        daftarItem: action.data,
       };
       break;
-    case PENGELOLAAN_STOK_JUAL:
+    case SORT_ITEM_STOK_SEDIKIT:
       return {
         ...state,
-        daftarItem: [
-          ...state.daftarItem.map((item) =>
-            item.key === action.key
-              ? {
-                  ...item,
-                  stok: action.totalStok,
-                }
-              : item
-          ),
-        ],
+        daftarItem: action.data,
+      };
+      break;
+    case SORT_ITEM_STOK_BANYAK:
+      return {
+        ...state,
+        daftarItem: action.data,
       };
       break;
     default:
