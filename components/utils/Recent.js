@@ -10,6 +10,7 @@ import Paper from "@material-ui/core/Paper";
 import { Grid } from "@material-ui/core";
 import { items } from "./utils";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
+import { useSelector } from "react-redux";
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -48,6 +49,43 @@ const useStyles = makeStyles({
 
 export default function CustomizedTables() {
   const classes = useStyles();
+  const penjualan = useSelector((state) => state.daftarItem.laporanPenjualan);
+  let dataArray = [];
+  penjualan.map((item) => {
+    item.item.map((data) => {
+      const obj = {
+        key: data.key,
+        jumlahJual: parseInt(data.jumlahJual),
+      };
+      dataArray.push(obj);
+    });
+  });
+  const result = dataArray
+    .map((item, i, array) => {
+      const defaultValue = {
+        key: item.key,
+        jumlahJual: 0,
+      };
+      const finalValue = array
+        .filter((other) => other.key === item.key) //we filter the same items
+        .reduce((accum, currentVal) => {
+          //we reduce them into a single entry
+          accum.jumlahJual += parseInt(currentVal.jumlahJual);
+          return accum;
+        }, defaultValue);
+      return finalValue;
+    })
+    .filter((item, thisIndex, array) => {
+      //now our new array has duplicates, lets remove them
+      const index = array.findIndex(
+        (otherItem, otherIndex) =>
+          otherItem.key === item.key &&
+          otherIndex !== thisIndex &&
+          otherIndex > thisIndex
+      );
+      return index === -1;
+    });
+  console.log(result);
   return (
     <Grid container spacing={4}>
       {items &&

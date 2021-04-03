@@ -33,6 +33,7 @@ function laporanPembelian({ title }) {
   const router = useRouter();
   const penjualan = useSelector((state) => state.daftarItem.laporanPenjualan);
   const pembelian = useSelector((state) => state.daftarItem.laporanPembelian);
+
   return (
     <Grid container className={classes.container}>
       <Grid item lg={12} className={classes.wrapper}>
