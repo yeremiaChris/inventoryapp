@@ -7,7 +7,7 @@ module.exports.jual_get = (req, res, next) => {
       next();
     }
     res.status(201).send(data);
-  });
+  }).sort({ createdAt: -1 });
 };
 
 module.exports.jual_create = (req, res, next) => {

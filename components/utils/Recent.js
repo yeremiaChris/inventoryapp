@@ -11,7 +11,7 @@ import { Grid } from "@material-ui/core";
 import { items, jualTerbanyak } from "./utils";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import { useSelector } from "react-redux";
-import { loadGetInitialProps } from "next/dist/next-server/lib/utils";
+import moment from "moment";
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -51,11 +51,11 @@ const useStyles = makeStyles({
 export default function CustomizedTables() {
   const classes = useStyles();
   const penjualan = useSelector((state) => state.daftarItem.laporanPenjualan);
-  let array = [];
+  const barangBaru = useSelector((state) => state.daftarItem.daftarItem);
   React.useEffect(() => {
     jualTerbanyak(penjualan);
   }, []);
-
+  console.log(penjualan);
   return (
     <Grid container spacing={4}>
       {items &&
@@ -78,25 +78,59 @@ export default function CustomizedTables() {
                 <Table aria-label="customized table">
                   <TableHead>
                     <TableRow>
-                      <StyledTableCell>Nama item</StyledTableCell>
+                      <StyledTableCell>
+                        {parseInt(item.key) === 1 ? "Nama item" : "Tanggal"}
+                      </StyledTableCell>
                       <StyledTableCell align="right">
-                        Jumlah jual
+                        {parseInt(item.key) === 1
+                          ? "Jumlah jual"
+                          : parseInt(item.key) === 2
+                          ? "Jumlah item jual"
+                          : "Nama barang"}
                       </StyledTableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {jualTerbanyak(penjualan).map((row) => {
-                      return (
-                        <StyledTableRow key={row.key}>
-                          <StyledTableCell component="th" scope="row">
-                            {row.namaBarang}
-                          </StyledTableCell>
-                          <StyledTableCell align="right">
-                            {row.jumlahJual}
-                          </StyledTableCell>
-                        </StyledTableRow>
-                      );
-                    })}
+                    {parseInt(item.key) === 1
+                      ? jualTerbanyak(penjualan)
+                          .slice(0, 5)
+                          .map((row) => {
+                            return (
+                              <StyledTableRow key={row.key}>
+                                <StyledTableCell component="th" scope="row">
+                                  {row.namaBarang}
+                                </StyledTableCell>
+                                <StyledTableCell align="right">
+                                  {row.jumlahJual}
+                                </StyledTableCell>
+                              </StyledTableRow>
+                            );
+                          })
+                      : parseInt(item.key) === 2
+                      ? penjualan.slice(0, 5).map((row) => {
+                          return (
+                            <StyledTableRow key={row.key}>
+                              <StyledTableCell component="th" scope="row">
+                                {moment(row.createdAt).format("DD, MMMM YYYY")}
+                              </StyledTableCell>
+                              <StyledTableCell align="right">
+                                {row.jumlahItemJual}
+                              </StyledTableCell>
+                            </StyledTableRow>
+                          );
+                        })
+                      : barangBaru.slice(0, 5).map((row) => {
+                          return (
+                            <StyledTableRow key={row.key}>
+                              <StyledTableCell component="th" scope="row">
+                                {moment(row.createdAt).format("DD, MMMM YYYY")}
+                              </StyledTableCell>
+                              <StyledTableCell align="right">
+                                {row.nama}
+                              </StyledTableCell>
+                            </StyledTableRow>
+                          );
+                        })}
                   </TableBody>
                 </Table>
               </TableContainer>

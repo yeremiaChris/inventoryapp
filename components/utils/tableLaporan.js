@@ -122,7 +122,7 @@ export default function tableLaporan() {
                   key={item._id}
                 >
                   <StyledTableCell component="th" scope="row">
-                    {moment(item.createdAt).format("MMMM Do YY")}
+                    {moment(item.createdAt).format("MMMM Do YYYY")}
                   </StyledTableCell>
                   <StyledTableCell component="th" scope="row">
                     {moment(item.createdAt).format("h:mm A")}
