@@ -1,6 +1,7 @@
-import { Grid, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import Recent from "./utils/Recent";
 import { itemsBox } from "./utils/utils";
+import { useSelector } from "react-redux";
 const useStyles = makeStyles((theme) => ({
   header: {
     fontSize: 30,
@@ -41,6 +42,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MediaCard() {
   const classes = useStyles();
+  const penjualan = useSelector((state) => state.daftarItem.laporanPenjualan);
+  const barangBaru = useSelector((state) => state.daftarItem.daftarItem);
+  const stok = (tanda) => {
+    return barangBaru.filter((item) =>
+      tanda === "habis" ? item.stok === 0 : item.stok <= 5
+    );
+  };
+  const stokHabis = barangBaru.filter((item) => item.stok === 0);
   return (
     <div className={classes.container}>
       <h1 className={classes.header}>Dashboard</h1>
@@ -82,7 +91,13 @@ export default function MediaCard() {
                       fontFamily: "Arial",
                     }}
                   >
-                    0
+                    {item.nama === "Stok Habis"
+                      ? stok("habis").length
+                      : item.nama === "Total Item"
+                      ? barangBaru.length
+                      : item.nama === "Stok Sedikit"
+                      ? stok("sedikit").length
+                      : 0}
                   </span>
                 </div>
               </div>
