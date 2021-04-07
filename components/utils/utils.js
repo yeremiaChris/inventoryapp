@@ -7,6 +7,49 @@ import { tambahItem, editItem } from "../../src/redux/actions";
 import moment from "moment"; // item untuk dashboard\
 import "moment/locale/id";
 
+// jual terbanyak function
+export const jualTerbanyak = (penjualan) => {
+  let dataArray = [];
+  penjualan.map((item) => {
+    item.item.map((data) => {
+      const obj = {
+        key: data.key,
+        jumlahJual: parseInt(data.jumlahJual),
+        namaBarang: data.namaBarang,
+      };
+      dataArray.push(obj);
+    });
+  });
+  const result = dataArray
+    .map((item, i, array) => {
+      const defaultValue = {
+        key: item.key,
+        jumlahJual: 0,
+        namaBarang: item.namaBarang,
+      };
+      const finalValue = array
+        .filter((other) => other.key === item.key) //we filter the same items
+        .reduce((accum, currentVal) => {
+          //we reduce them into a single entry
+          accum.jumlahJual += parseInt(currentVal.jumlahJual);
+          return accum;
+        }, defaultValue);
+      return finalValue;
+    })
+    .filter((item, thisIndex, array) => {
+      //now our new array has duplicates, lets remove them
+      const index = array.findIndex(
+        (otherItem, otherIndex) =>
+          otherItem.key === item.key &&
+          otherIndex !== thisIndex &&
+          otherIndex > thisIndex
+      );
+      return index === -1;
+    });
+
+  return result;
+};
+
 export const items = [
   {
     nama: "Produk Jual Terbanyak",

@@ -8,9 +8,10 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { Grid } from "@material-ui/core";
-import { items } from "./utils";
+import { items, jualTerbanyak } from "./utils";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import { useSelector } from "react-redux";
+import { loadGetInitialProps } from "next/dist/next-server/lib/utils";
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -50,42 +51,11 @@ const useStyles = makeStyles({
 export default function CustomizedTables() {
   const classes = useStyles();
   const penjualan = useSelector((state) => state.daftarItem.laporanPenjualan);
-  let dataArray = [];
-  penjualan.map((item) => {
-    item.item.map((data) => {
-      const obj = {
-        key: data.key,
-        jumlahJual: parseInt(data.jumlahJual),
-      };
-      dataArray.push(obj);
-    });
-  });
-  const result = dataArray
-    .map((item, i, array) => {
-      const defaultValue = {
-        key: item.key,
-        jumlahJual: 0,
-      };
-      const finalValue = array
-        .filter((other) => other.key === item.key) //we filter the same items
-        .reduce((accum, currentVal) => {
-          //we reduce them into a single entry
-          accum.jumlahJual += parseInt(currentVal.jumlahJual);
-          return accum;
-        }, defaultValue);
-      return finalValue;
-    })
-    .filter((item, thisIndex, array) => {
-      //now our new array has duplicates, lets remove them
-      const index = array.findIndex(
-        (otherItem, otherIndex) =>
-          otherItem.key === item.key &&
-          otherIndex !== thisIndex &&
-          otherIndex > thisIndex
-      );
-      return index === -1;
-    });
-  console.log(result);
+  let array = [];
+  React.useEffect(() => {
+    jualTerbanyak(penjualan);
+  }, []);
+
   return (
     <Grid container spacing={4}>
       {items &&
@@ -108,25 +78,25 @@ export default function CustomizedTables() {
                 <Table aria-label="customized table">
                   <TableHead>
                     <TableRow>
-                      <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-                      <StyledTableCell align="right">Calories</StyledTableCell>
-                      <StyledTableCell align="right">Calories</StyledTableCell>
+                      <StyledTableCell>Nama item</StyledTableCell>
+                      <StyledTableCell align="right">
+                        Jumlah jual
+                      </StyledTableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {rows.map((row) => (
-                      <StyledTableRow key={row.name}>
-                        <StyledTableCell component="th" scope="row">
-                          {row.name}
-                        </StyledTableCell>
-                        <StyledTableCell align="right">
-                          {row.calories}
-                        </StyledTableCell>
-                        <StyledTableCell align="right">
-                          {row.calories}
-                        </StyledTableCell>
-                      </StyledTableRow>
-                    ))}
+                    {jualTerbanyak(penjualan).map((row) => {
+                      return (
+                        <StyledTableRow key={row.key}>
+                          <StyledTableCell component="th" scope="row">
+                            {row.namaBarang}
+                          </StyledTableCell>
+                          <StyledTableCell align="right">
+                            {row.jumlahJual}
+                          </StyledTableCell>
+                        </StyledTableRow>
+                      );
+                    })}
                   </TableBody>
                 </Table>
               </TableContainer>
